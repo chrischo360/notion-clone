@@ -1,0 +1,50 @@
+{
+  "name": "with-chakra-ui",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "gen": "graphql-codegen --config codegen.yml"
+  },
+  "dependencies": {
+    "@apollo/client": "^3.2.1",
+    "@apollo/react-hooks": "^4.0.0",
+    "@apollo/react-ssr": "^4.0.0",
+    "@chakra-ui/core": "^0.5.2",
+    "@emotion/core": "^10.0.35",
+    "@emotion/styled": "^10.0.27",
+    "@types/styled-components": "^5.1.4",
+    "apollo-boost": "^0.4.9",
+    "apollo-cache-inmemory": "^1.6.6",
+    "apollo-client": "^2.6.10",
+    "apollo-link-http": "^1.5.17",
+    "apollo-server-micro": "^2.17.0",
+    "emoji-dictionary": "^1.0.11",
+    "emoji-picker-react": "^3.2.4",
+    "emotion-theming": "^10.0.27",
+    "formik": "^2.2.0",
+    "graphql": "^15.3.0",
+    "graphql-tag": "^2.11.0",
+    "isomorphic-unfetch": "^3.0.0",
+    "next": "^9.1.7",
+    "prop-types": "^15.7.2",
+    "react": "^16.12.0",
+    "react-contenteditable": "^3.3.5",
+    "react-dom": "^16.12.0",
+    "react-icons": "^3.11.0",
+    "styled-components": "^5.2.0",
+    "yup": "^0.29.3"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "@graphql-codegen/cli": "1.19.2",
+    "@types/graphql": "^14.5.0",
+    "@types/node": "^14.10.2",
+    "typescript": "^4.0.2",
+    "@graphql-codegen/typescript-operations": "1.17.10",
+    "@graphql-codegen/typescript": "1.17.11",
+    "@graphql-codegen/typescript-react-apollo": "2.1.1"
+  }
+}
