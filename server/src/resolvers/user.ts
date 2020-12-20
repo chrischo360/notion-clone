@@ -19,6 +19,8 @@ import { createConfirmationUrl } from "../utils/createConfirmationUrl";
 import { redis } from "../redis";
 import { confirmationUrlPrefix, forgotPasswordPrefix } from "../redisPrefixes";
 import { v4 } from "uuid";
+import { InjectRepository } from "typeorm-typedi-extensions";
+import { Repository } from "typeorm";
 
 @InputType()
 class RegisterInput {
@@ -53,8 +55,12 @@ class ChangePasswordInput {
   password: string;
 }
 
-@Resolver()
+@Resolver(() => User)
 export class UserResolver {
+  constructor(
+    @InjectRepository(User) private userRepository: Repository<User>
+  ) {}
+
   @UseMiddleware(isAuthorized)
   @Query(() => String)
   async hello() {
@@ -67,17 +73,17 @@ export class UserResolver {
   ): Promise<User> {
     const hashedPassword = await argon2.hash(password);
 
-    const user = await User.create({
+    const user = await this.userRepository.create({
       username,
       password: hashedPassword,
       email,
-    }).save();
+    });
 
     const confirmationUrl = await createConfirmationUrl(user.id);
 
     await sendEmail(email, confirmationUrl);
 
-    return user;
+    return await this.userRepository.save(user);
   }
 
   @Mutation(() => User, { nullable: true })
@@ -85,7 +91,7 @@ export class UserResolver {
     @Arg("input") { username, password }: LoginInput,
     @Ctx() ctx: MyContext
   ): Promise<User | null> {
-    const user = await User.findOne({ where: { username } });
+    const user = await this.userRepository.findOne({ where: { username } });
 
     if (!user) {
       return null;
@@ -112,7 +118,7 @@ export class UserResolver {
       return undefined;
     }
 
-    return User.findOne(ctx.req.session!.userId);
+    return this.userRepository.findOne(ctx.req.session!.userId);
   }
 
   @Mutation(() => Boolean, { nullable: true })
@@ -123,7 +129,10 @@ export class UserResolver {
       return false;
     }
 
-    await User.update({ id: parseInt(userId, 10) }, { confirmed: true });
+    await this.userRepository.update(
+      { id: parseInt(userId, 10) },
+      { confirmed: true }
+    );
     redis.del(token);
 
     return true;
@@ -131,7 +140,7 @@ export class UserResolver {
 
   @Mutation(() => Boolean)
   async forgotPassword(@Arg("email") email: string): Promise<Boolean> {
-    const user = await User.findOne({ where: { email } });
+    const user = await this.userRepository.findOne({ where: { email } });
 
     if (!user) {
       return true;
@@ -159,7 +168,7 @@ export class UserResolver {
       return null;
     }
 
-    const user = await User.findOne(userId);
+    const user = await this.userRepository.findOne(userId);
 
     if (!user) {
       return null;
@@ -169,7 +178,7 @@ export class UserResolver {
 
     user.password = await argon2.hash(password);
 
-    await user.save();
+    await this.userRepository.save(user);
 
     ctx.req.session!.userId = user.id;
     return user;

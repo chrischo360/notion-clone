@@ -1,0 +1,15 @@
+mutation createBlock($input: BlockInput!) {
+  createBlock(input: $input) {
+    id
+    content
+    type
+    boldness
+    order
+    pageLink
+    checked
+    indentationLevel
+    page {
+      id
+    }
+  }
+}

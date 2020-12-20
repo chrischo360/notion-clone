@@ -1,0 +1,16 @@
+query GetBlock($blockId: Float!) {
+  getBlock(blockId: $blockId) {
+    id
+    content
+    type
+    boldness
+    order
+    pageLink
+    checked
+    indentationLevel
+    page {
+      id
+      title
+    }
+  }
+}

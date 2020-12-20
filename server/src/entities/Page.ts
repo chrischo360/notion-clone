@@ -1,49 +1,27 @@
 import { ObjectType, Field, ID } from "type-graphql";
-import {
-  BaseEntity,
-  Column,
-  CreateDateColumn,
-  Entity,
-  ManyToOne,
-  PrimaryGeneratedColumn,
-  RelationId,
-  UpdateDateColumn,
-} from "typeorm";
-import { User } from "./User";
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { Block } from "./Block";
 
 @ObjectType()
 @Entity()
-export class Page extends BaseEntity {
+export class Page {
   @Field(() => ID)
   @PrimaryGeneratedColumn()
   id!: number;
 
-  @Field(() => String)
-  @CreateDateColumn()
-  createdAt: Date;
-
-  @Field(() => String)
-  @UpdateDateColumn()
-  updatedAt: Date;
-
-  @Field()
-  @Column()
+  @Field({ defaultValue: "" })
+  @Column({ default: "" })
   cover?: string;
 
-  @Field()
-  @Column()
+  @Field({ defaultValue: "" })
+  @Column({ default: "" })
   title?: string;
 
-  @Field()
-  @Column()
+  @Field({ defaultValue: "" })
+  @Column({ default: "" })
   emoji?: string;
 
-  @Field(() => User)
-  @ManyToOne(() => User)
-  creator: User;
-  @RelationId((page: Page) => page.creator)
-  creatorId: number;
+  @Field(() => [Block], { nullable: true })
+  @OneToMany(() => Block, (block) => block.page)
+  blocks: Block[];
 }
-// @Field()
-// @OneToMany(() => Block, (block) => block.page)
-// blocks: Block[];

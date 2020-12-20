@@ -1,34 +1,22 @@
-import React, { useState } from "react";
+import React from "react";
 import { initializeApollo } from "../lib/apolloClient";
+import PagesList from "../components/allPages";
 import { gql } from "@apollo/client";
-import App from "../components/App";
-import PageList from "../components/PageList";
-
-export const NOTES = gql`
-  query AllNotes {
-    notes {
-      id
-      content
-      createdAt
-      updatedAt
-    }
-  }
-`;
 
 const IndexPage: React.FC = () => {
   return (
-    <App>
-      <PageList />
-    </App>
+    <div>
+      <PagesList />
+    </div>
   );
 };
 
 export async function getStaticProps() {
   const apolloClient = initializeApollo();
 
-  await apolloClient.query({
-    query: NOTES,
-  });
+  // await apolloClient.query({
+  //   query: GET_PAGE_QUERY,
+  // });
 
   return {
     props: {
