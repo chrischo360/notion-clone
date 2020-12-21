@@ -2,11 +2,12 @@ import React from "react";
 import { initializeApollo } from "../lib/apolloClient";
 import PagesList from "../components/allPages";
 import { gql } from "@apollo/client";
+import MyEditor from "../components/editor/editor";
 
 const IndexPage: React.FC = () => {
   return (
     <div>
-      <PagesList />
+      <MyEditor />
     </div>
   );
 };
