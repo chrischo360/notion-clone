@@ -1,0 +1,8 @@
+mutation createPage($input: PageInput!) {
+  createPage(input: $input) {
+    id
+    cover
+    title
+    emoji
+  }
+}

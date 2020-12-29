@@ -1,0 +1,17 @@
+query getAllPages {
+    getAllPages {
+        id
+        cover
+        title
+        emoji
+        blocks {
+            id
+            content
+            type
+            boldness
+            order
+            pageLink
+            checked
+            indentationLevel
+    }
+}

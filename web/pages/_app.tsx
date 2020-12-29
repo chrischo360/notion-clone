@@ -1,11 +1,11 @@
 import {
     ThemeProvider,
     CSSReset,
-    ColorModeProvider,
     theme,
-} from "@chakra-ui/core";
+    ChakraProvider,
+} from "@chakra-ui/react";
 import { ApolloProvider } from "@apollo/client";
-import { useApollo } from "../lib/apolloClient";
+import { useApollo } from "../src/lib/apolloClient";
 import Head from "next/head";
 
 // import theme from "../theme";
@@ -15,13 +15,13 @@ function MyApp({ Component, pageProps }: any) {
 
     return (
         <ApolloProvider client={apolloClient}>
-            <ThemeProvider theme={theme}>
+            <ChakraProvider theme={theme}>
                 <Head>
                     <link rel="shortcut icon" href="/public/favicon.ico" />
                 </Head>
                 <CSSReset />
                 <Component {...pageProps} />
-            </ThemeProvider>
+            </ChakraProvider>
         </ApolloProvider>
     );
 }
