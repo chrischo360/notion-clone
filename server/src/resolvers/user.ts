@@ -121,6 +121,11 @@ export class UserResolver {
     return this.userRepository.findOne(ctx.req.session!.userId);
   }
 
+  @Query(() => [User])
+  async getAllUsers(): Promise<User[]> {
+    return this.userRepository.find();
+  }
+
   @Mutation(() => Boolean, { nullable: true })
   async confirmUser(@Arg("token") token: string): Promise<Boolean> {
     const userId = await redis.get(confirmationUrlPrefix + token);

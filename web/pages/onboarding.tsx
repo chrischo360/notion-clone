@@ -6,7 +6,7 @@ import { useRegisterMutation } from "../src/generated/graphql";
 interface registerProps {}
 
 const OnBoardingPage: React.FC<registerProps> = ({}) => {
-  const [, register] = useRegisterMutation();
+  const [register] = useRegisterMutation();
   return (
     <Box display="flex" flexDirection="column" alignItems="center">
       <Box display="flex" flexDirection="column" alignItems="center" mb="150px">
@@ -28,7 +28,19 @@ const OnBoardingPage: React.FC<registerProps> = ({}) => {
           }}
           validate={() => {}}
           onSubmit={async (values) => {
-            const response = await register(values);
+            console.log("values", values);
+            // const setValues = {
+            //   username: "changes?",
+            //   password: "gijsdiaosfouabf",
+            //   email: "chris@gmail.com",
+            // };
+            const response = await register({
+              variables: {
+                username: values.username,
+                email: values.email,
+                password: values.password,
+              },
+            });
             if (response.data?.register.errors) {
               console.log("error");
             }
@@ -45,7 +57,7 @@ const OnBoardingPage: React.FC<registerProps> = ({}) => {
           }) => (
             <Form onSubmit={handleSubmit}>
               <Box display="flex" flexDirection="column" alignItems="center">
-                <Avatar src={values.avatarUrl} />
+                {/* <Avatar src={values.avatarUrl} /> */}
                 <Button variant="ghost">Change</Button>
               </Box>
 
@@ -98,7 +110,7 @@ const OnBoardingPage: React.FC<registerProps> = ({}) => {
                 mb="30px"
               />
               {errors.password && touched.password && errors.password}
-              <Button type="submit" disabled={isSubmitting}>
+              <Button type="submit" isLoading={isSubmitting}>
                 Continue
               </Button>
             </Form>
