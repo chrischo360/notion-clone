@@ -3,7 +3,7 @@ import NextLink from "next/link";
 import React from "react";
 import { initializeApollo } from "../src/lib/apolloClient";
 import { SiNotion } from "react-icons/si";
-import NavBarLinks from "../src/components/NavBarLinks";
+import NavBarLinks from "../src/components/navBarLinks";
 import { Example, RadioCard } from "../src/components/radio";
 import NotionHeader from "../src/components/header";
 import { GetStaticProps } from "next";
