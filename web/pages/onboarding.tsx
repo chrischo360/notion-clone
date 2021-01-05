@@ -41,13 +41,18 @@ const OnBoardingPage: React.FC<registerProps> = ({}) => {
                         //   password: "gijsdiaosfouabf",
                         //   email: "chris@gmail.com",
                         // };
-                        const response = await register({
+                        // const response =
+                        router.push("/posts/index");
+
+                        await register({
                             variables: {
                                 username: values.username,
                                 email: values.email,
                                 password: values.password,
                             },
                         });
+                        // router.push("/posts/index");
+
                         // if (response.data?.register.errors) {
                         //     setErrors(
                         //         toErrorMap(response.data.register.errors)
@@ -100,7 +105,6 @@ const OnBoardingPage: React.FC<registerProps> = ({}) => {
                                 borderRadius="0px"
                                 mb="20px"
                             />
-                            {errors.name && touched.name && errors.name}
                             {/* {errors.firstName && touched.firstName && errors.firstName} */}
                             {/* <Text>Last Name</Text>
               <Input
