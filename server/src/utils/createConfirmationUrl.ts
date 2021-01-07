@@ -5,6 +5,7 @@ import { confirmationUrlPrefix } from "../redisPrefixes";
 export const createConfirmationUrl = async (userId: number) => {
   const token = v4();
   await redis.set(confirmationUrlPrefix + token, userId, "ex", 60 * 60 * 24);
+  // await redis.set(token, userId, "ex", 60 * 60 * 24);
 
   return `http://localhost:3000/user/confirm/${token}`;
 };

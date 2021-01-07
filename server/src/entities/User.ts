@@ -19,6 +19,7 @@ export class User {
   @Column()
   password!: string;
 
+  @Field()
   @Column("bool", { default: false })
   confirmed: boolean;
 }

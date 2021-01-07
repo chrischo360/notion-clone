@@ -1,12 +1,23 @@
-FROM node:latest
+FROM node:12
 
-WORKDIR /usr/src/app
-
-COPY package.json ./
-COPY yarn.lock ./
+COPY . .
 
 RUN yarn
-RUN yarn build
 
-EXPOSE 8080
-CMD ["node", "dist/index.js"]
+CMD node dist/index.js
+
+
+# FROM node:latest
+
+# WORKDIR /usr/src/app
+
+# COPY package.json ./
+# COPY yarn.lock ./
+
+# RUN yarn
+# RUN yarn build
+
+# COPY . .
+
+# EXPOSE 8080
+# CMD ["node", "dist/index.js"]

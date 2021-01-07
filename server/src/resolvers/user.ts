@@ -71,13 +71,23 @@ export class UserResolver {
   async register(
     @Arg("input") { username, email, password }: RegisterInput
   ): Promise<User> {
+    console.log("registering");
     const hashedPassword = await argon2.hash(password);
 
-    const user = await this.userRepository.create({
+    const user = this.userRepository.create({
       username,
       password: hashedPassword,
       email,
     });
+    console.log("user:", user);
+    console.log("username:", user.username);
+    console.log("userId", user.id);
+    // const userId = this.userRepository.getId(user);
+
+    // const user1 = await this.userRepository.findOne({ where: { username } });
+    const user1 = await this.userRepository.find();
+
+    // console.log("users", users);
 
     const confirmationUrl = await createConfirmationUrl(user.id);
 
@@ -128,7 +138,12 @@ export class UserResolver {
 
   @Mutation(() => Boolean, { nullable: true })
   async confirmUser(@Arg("token") token: string): Promise<Boolean> {
+    console.log(token);
+    console.log(confirmationUrlPrefix);
     const userId = await redis.get(confirmationUrlPrefix + token);
+    // const userId = await redis.get(token);
+    // const userId = await redis.get(token);
+    console.log(userId);
 
     if (!userId) {
       return false;
@@ -138,7 +153,7 @@ export class UserResolver {
       { id: parseInt(userId, 10) },
       { confirmed: true }
     );
-    redis.del(token);
+    // redis.del(token);
 
     return true;
   }
