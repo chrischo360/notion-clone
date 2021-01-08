@@ -1,3 +1,5 @@
+import { extendTheme } from "@chakra-ui/react";
+
 // import { theme as chakraTheme } from "@chakra-ui/core";
 
 // const fonts = { ...chakraTheme.fonts, mono: `'Menlo', monospace` };
@@ -37,23 +39,45 @@
 
 // export default theme;
 
-export default {
-    breakpoints: ["30em", "48em", "62em", "80em"],
-    fonts: {
-        heading: '"Avenir Next", sans-serif',
-        body: "system-ui, sans-serif",
-        mono: "Menlo, monospace",
+const theme = extendTheme({
+    styles: {
+        global: {
+            // styles for the `body`
+            body: {
+                fontFamily: "sans-serif",
+                bg: "white",
+                color: "rgb(55, 53, 47)",
+            },
+            // styles for the `a`
+            a: {
+                color: "teal.500",
+                _hover: {
+                    textDecoration: "underline",
+                },
+            },
+        },
     },
-    fontSizes: {
-        xs: "0.75rem",
-        sm: "0.875rem",
-        md: "1rem",
-        lg: "1.125rem",
-        xl: "1.25rem",
-        "2xl": "1.5rem",
-        "3xl": "1.875rem",
-        "4xl": "2.25rem",
-        "5xl": "3rem",
-        "6xl": "4rem",
-    },
-};
+});
+
+export default theme;
+
+// export default {
+//     breakpoints: ["30em", "48em", "62em", "80em"],
+//     fonts: {
+//         body: "system-ui, sans-serif",
+//         heading: "Georgia, serif",
+//         mono: "Menlo, monospace",
+//     },
+//     fontSizes: {
+//         xs: "0.75rem",
+//         sm: "0.875rem",
+//         md: "1rem",
+//         lg: "1.125rem",
+//         xl: "1.25rem",
+//         "2xl": "1.5rem",
+//         "3xl": "1.875rem",
+//         "4xl": "2.25rem",
+//         "5xl": "3rem",
+//         "6xl": "4rem",
+//     },
+// };

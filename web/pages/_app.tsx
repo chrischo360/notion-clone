@@ -1,12 +1,8 @@
-import {
-    ThemeProvider,
-    CSSReset,
-    theme,
-    ChakraProvider,
-} from "@chakra-ui/react";
+import { ThemeProvider, CSSReset, ChakraProvider } from "@chakra-ui/react";
 import { ApolloProvider } from "@apollo/client";
 import { useApollo } from "../src/lib/apolloClient";
 import Head from "next/head";
+import theme from "../src/theme";
 
 // import theme from "../theme";
 
