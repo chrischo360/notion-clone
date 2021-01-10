@@ -1,0 +1,39 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model block {
+  id      Int     @id @default(autoincrement())
+  content String?
+  pageId  Int
+  page    page    @relation(fields: [pageId], references: [id])
+
+  @@index([pageId], name: "pageId")
+}
+
+model page {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime
+  cover     String
+  title     String
+  emoji     String
+  creatorId Int
+  user      user     @relation(fields: [creatorId], references: [id])
+  block     block[]
+
+  @@index([creatorId], name: "creatorId")
+}
+
+model user {
+  id        Int     @id @default(autoincrement())
+  email     String  @unique
+  name      String?
+  confirmed Boolean
+  pages      page[]
+}
