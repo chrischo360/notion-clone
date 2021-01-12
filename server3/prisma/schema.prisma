@@ -12,9 +12,10 @@ generator client {
 
 model Block {
   id      Int     @id @default(autoincrement())
-  content String?
+  content String  @default("")
   pageId  Int
   page    Page    @relation(fields: [pageId], references: [id])
+  type    Type    @default(TEXT)
 
   @@index([pageId], name: "pageId")
 }
@@ -23,12 +24,12 @@ model Page {
   id        Int      @id @default(autoincrement())
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  cover     String?
+  cover     String   @default("")
   title     String
-  emoji     String?
+  emoji     String   @default("")
   creatorId Int
   user      User     @relation(fields: [creatorId], references: [id])
-  blocks     Block[]
+  blocks    Block[]
 
   @@index([creatorId], name: "creatorId")
 }
@@ -36,7 +37,17 @@ model Page {
 model User {
   id        Int     @id @default(autoincrement())
   email     String  @unique
-  name      String?
+  name      String
   confirmed Boolean @default(false)
   pages      Page[]
+}
+
+enum Type {
+  TEXT
+  HEADING
+  PAGE
+  BULLET
+  NUMBERED
+  TODO
+  TOGGLE
 }

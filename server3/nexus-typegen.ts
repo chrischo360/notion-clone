@@ -4,7 +4,7 @@
  */
 
 
-
+import { Context as ContextModule } from "./api/context"
 
 
 
@@ -28,7 +28,24 @@ export interface NexusGenScalars {
 }
 
 export interface NexusGenObjects {
+  Block: { // root type
+    content?: string | null; // String
+    id?: number | null; // Int
+  }
+  Mutation: {};
+  Page: { // root type
+    cover?: string | null; // String
+    emoji?: string | null; // String
+    id?: number | null; // Int
+    title?: string | null; // String
+  }
   Query: {};
+  User: { // root type
+    confirmed?: string | null; // String
+    email?: string | null; // String
+    id?: number | null; // Int
+    name?: string | null; // String
+  }
 }
 
 export interface NexusGenInterfaces {
@@ -42,18 +59,74 @@ export type NexusGenRootTypes = NexusGenObjects
 export type NexusGenAllTypes = NexusGenRootTypes & NexusGenScalars
 
 export interface NexusGenFieldTypes {
+  Block: { // field return type
+    content: string | null; // String
+    id: number | null; // Int
+  }
+  Mutation: { // field return type
+    createPage: NexusGenRootTypes['Page']; // Page!
+    register: NexusGenRootTypes['User']; // User!
+  }
+  Page: { // field return type
+    cover: string | null; // String
+    emoji: string | null; // String
+    id: number | null; // Int
+    title: string | null; // String
+  }
   Query: { // field return type
-    ok: boolean; // Boolean!
+    blocks: Array<NexusGenRootTypes['Block'] | null>; // [Block]!
+    pages: Array<NexusGenRootTypes['Page'] | null>; // [Page]!
+    users: Array<NexusGenRootTypes['User'] | null>; // [User]!
+  }
+  User: { // field return type
+    confirmed: string | null; // String
+    email: string | null; // String
+    id: number | null; // Int
+    name: string | null; // String
   }
 }
 
 export interface NexusGenFieldTypeNames {
+  Block: { // field return type name
+    content: 'String'
+    id: 'Int'
+  }
+  Mutation: { // field return type name
+    createPage: 'Page'
+    register: 'User'
+  }
+  Page: { // field return type name
+    cover: 'String'
+    emoji: 'String'
+    id: 'Int'
+    title: 'String'
+  }
   Query: { // field return type name
-    ok: 'Boolean'
+    blocks: 'Block'
+    pages: 'Page'
+    users: 'User'
+  }
+  User: { // field return type name
+    confirmed: 'String'
+    email: 'String'
+    id: 'Int'
+    name: 'String'
   }
 }
 
 export interface NexusGenArgTypes {
+  Mutation: {
+    createPage: { // args
+      cover: string; // String!
+      emoji: string; // String!
+      title: string; // String!
+    }
+    register: { // args
+      cover: string; // String!
+      email: string; // String!
+      name: string; // String!
+    }
+  }
 }
 
 export interface NexusGenAbstractTypeMembers {
@@ -87,7 +160,7 @@ export type NexusGenFeaturesConfig = {
 }
 
 export interface NexusGenTypes {
-  context: any;
+  context: ContextModule;
   inputTypes: NexusGenInputs;
   rootTypes: NexusGenRootTypes;
   inputTypeShapes: NexusGenInputs & NexusGenEnums & NexusGenScalars;

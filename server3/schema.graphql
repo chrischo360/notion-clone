@@ -2,6 +2,32 @@
 ### Do not make changes to this file directly
 
 
+type Block {
+  content: String
+  id: Int
+}
+
+type Mutation {
+  createPage(cover: String!, emoji: String!, title: String!): Page!
+  register(cover: String!, email: String!, name: String!): User!
+}
+
+type Page {
+  cover: String
+  emoji: String
+  id: Int
+  title: String
+}
+
 type Query {
-  ok: Boolean!
+  blocks: [Block]!
+  pages: [Page]!
+  users: [User]!
+}
+
+type User {
+  confirmed: String
+  email: String
+  id: Int
+  name: String
 }
