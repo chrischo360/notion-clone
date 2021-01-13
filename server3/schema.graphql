@@ -2,14 +2,26 @@
 ### Do not make changes to this file directly
 
 
+type AuthPayload {
+  token: String
+  user: User
+}
+
 type Block {
   content: String
   id: Int
+  type: String
 }
 
 type Mutation {
-  createPage(cover: String!, emoji: String!, title: String!): Page!
-  register(cover: String!, email: String!, name: String!): User!
+  createBlock(content: String, pageId: Int, type: String): Block
+  createPage(cover: String, emoji: String, title: String!): Page
+  deleteBlock(blockId: Int): Block
+  deletePage(pageId: Int): Page
+  login(email: String!, password: String!): AuthPayload
+  register(email: String!, name: String, password: String!): AuthPayload
+  updateBlock(content: String, pageId: Int, type: String): Block
+  updatePage(cover: String, emoji: String, title: String, userId: Int): Page
 }
 
 type Page {
@@ -20,9 +32,13 @@ type Page {
 }
 
 type Query {
-  blocks: [Block]!
-  pages: [Page]!
-  users: [User]!
+  block(id: Int): Block
+  blocks(pageId: Int): [Block]
+  confirmedUsers: [User]
+  me: User
+  page(id: Int): Page
+  pages(userId: Int): [Page]
+  user(id: Int): User
 }
 
 type User {

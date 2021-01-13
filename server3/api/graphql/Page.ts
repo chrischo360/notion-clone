@@ -11,40 +11,44 @@ export const Page = objectType({
     },
 });
 
-export const PageQuery = extendType({
-    type: "Query",
-    definition(t) {
-        t.nonNull.list.field("pages", {
-            type: "Page",
-            resolve(_root, _args, ctx) {
-                return ctx.db.pages;
+// export const PageQuery = extendType({
+//     type: "Query",
+//     definition(t) {
+//         t.nonNull.list.field("pages", {
+//             type: "Page",
+//             resolve(_root, _args, ctx) {
+//                 return ctx.db.page.findMany();
 
-                // return ctx.db.pages.filter((p) => p.id === true);
-            },
-        });
-    },
-});
+//                 // return ctx.db.pages.filter((p) => p.id === true);
+//             },
+//         });
+//     },
+// });
 
-export const PageMutation = extendType({
-    type: "Mutation",
-    definition(t) {
-        t.nonNull.field("createPage", {
-            type: "Page",
-            args: {
-                title: nonNull(stringArg()),
-                emoji: nonNull(stringArg()),
-                cover: nonNull(stringArg()),
-            },
-            resolve(_root, args, ctx) {
-                const page = {
-                    id: ctx.db.pages.length + 1,
-                    title: args.title,
-                    cover: args.cover,
-                    emoji: args.emoji,
-                };
-                ctx.db.pages.push(page);
-                return page;
-            },
-        });
-    },
-});
+// export const PageMutation = extendType({
+//     type: "Mutation",
+//     definition(t) {
+//         t.nonNull.field("createPage", {
+//             type: "Page",
+//             args: {
+//                 title: nonNull(stringArg()),
+//                 emoji: nonNull(stringArg()),
+//                 cover: nonNull(stringArg()),
+//             },
+//             resolve(_root, args, ctx) {
+//                 const page = {
+//                     title: args.title,
+//                     cover: args.cover,
+//                     emoji: args.emoji,
+//                 };
+//                 return ctx.db.page.create({
+//                     data: {
+//                         title: page.title,
+//                         cover: page.cover,
+//                         emoji: page.emoji,
+//                     },
+//                 });
+//             },
+//         });
+//     },
+// });

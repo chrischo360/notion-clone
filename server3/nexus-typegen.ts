@@ -7,7 +7,12 @@
 import { Context as ContextModule } from "./api/context"
 
 
-
+declare global {
+  interface NexusGenCustomOutputProperties<TypeName extends string> {
+    crud: NexusPrisma<TypeName, 'crud'>
+    model: NexusPrisma<TypeName, 'model'>
+  }
+}
 
 declare global {
   interface NexusGen extends NexusGenTypes {}
@@ -28,9 +33,14 @@ export interface NexusGenScalars {
 }
 
 export interface NexusGenObjects {
+  AuthPayload: { // root type
+    token?: string | null; // String
+    user?: NexusGenRootTypes['User'] | null; // User
+  }
   Block: { // root type
     content?: string | null; // String
     id?: number | null; // Int
+    type?: string | null; // String
   }
   Mutation: {};
   Page: { // root type
@@ -59,13 +69,24 @@ export type NexusGenRootTypes = NexusGenObjects
 export type NexusGenAllTypes = NexusGenRootTypes & NexusGenScalars
 
 export interface NexusGenFieldTypes {
+  AuthPayload: { // field return type
+    token: string | null; // String
+    user: NexusGenRootTypes['User'] | null; // User
+  }
   Block: { // field return type
     content: string | null; // String
     id: number | null; // Int
+    type: string | null; // String
   }
   Mutation: { // field return type
-    createPage: NexusGenRootTypes['Page']; // Page!
-    register: NexusGenRootTypes['User']; // User!
+    createBlock: NexusGenRootTypes['Block'] | null; // Block
+    createPage: NexusGenRootTypes['Page'] | null; // Page
+    deleteBlock: NexusGenRootTypes['Block'] | null; // Block
+    deletePage: NexusGenRootTypes['Page'] | null; // Page
+    login: NexusGenRootTypes['AuthPayload'] | null; // AuthPayload
+    register: NexusGenRootTypes['AuthPayload'] | null; // AuthPayload
+    updateBlock: NexusGenRootTypes['Block'] | null; // Block
+    updatePage: NexusGenRootTypes['Page'] | null; // Page
   }
   Page: { // field return type
     cover: string | null; // String
@@ -74,9 +95,13 @@ export interface NexusGenFieldTypes {
     title: string | null; // String
   }
   Query: { // field return type
-    blocks: Array<NexusGenRootTypes['Block'] | null>; // [Block]!
-    pages: Array<NexusGenRootTypes['Page'] | null>; // [Page]!
-    users: Array<NexusGenRootTypes['User'] | null>; // [User]!
+    block: NexusGenRootTypes['Block'] | null; // Block
+    blocks: Array<NexusGenRootTypes['Block'] | null> | null; // [Block]
+    confirmedUsers: Array<NexusGenRootTypes['User'] | null> | null; // [User]
+    me: NexusGenRootTypes['User'] | null; // User
+    page: NexusGenRootTypes['Page'] | null; // Page
+    pages: Array<NexusGenRootTypes['Page'] | null> | null; // [Page]
+    user: NexusGenRootTypes['User'] | null; // User
   }
   User: { // field return type
     confirmed: string | null; // String
@@ -87,13 +112,24 @@ export interface NexusGenFieldTypes {
 }
 
 export interface NexusGenFieldTypeNames {
+  AuthPayload: { // field return type name
+    token: 'String'
+    user: 'User'
+  }
   Block: { // field return type name
     content: 'String'
     id: 'Int'
+    type: 'String'
   }
   Mutation: { // field return type name
+    createBlock: 'Block'
     createPage: 'Page'
-    register: 'User'
+    deleteBlock: 'Block'
+    deletePage: 'Page'
+    login: 'AuthPayload'
+    register: 'AuthPayload'
+    updateBlock: 'Block'
+    updatePage: 'Page'
   }
   Page: { // field return type name
     cover: 'String'
@@ -102,9 +138,13 @@ export interface NexusGenFieldTypeNames {
     title: 'String'
   }
   Query: { // field return type name
+    block: 'Block'
     blocks: 'Block'
+    confirmedUsers: 'User'
+    me: 'User'
+    page: 'Page'
     pages: 'Page'
-    users: 'User'
+    user: 'User'
   }
   User: { // field return type name
     confirmed: 'String'
@@ -116,15 +156,58 @@ export interface NexusGenFieldTypeNames {
 
 export interface NexusGenArgTypes {
   Mutation: {
+    createBlock: { // args
+      content?: string | null; // String
+      pageId?: number | null; // Int
+      type?: string | null; // String
+    }
     createPage: { // args
-      cover: string; // String!
-      emoji: string; // String!
+      cover?: string | null; // String
+      emoji?: string | null; // String
       title: string; // String!
     }
-    register: { // args
-      cover: string; // String!
+    deleteBlock: { // args
+      blockId?: number | null; // Int
+    }
+    deletePage: { // args
+      pageId?: number | null; // Int
+    }
+    login: { // args
       email: string; // String!
-      name: string; // String!
+      password: string; // String!
+    }
+    register: { // args
+      email: string; // String!
+      name?: string | null; // String
+      password: string; // String!
+    }
+    updateBlock: { // args
+      content?: string | null; // String
+      pageId?: number | null; // Int
+      type?: string | null; // String
+    }
+    updatePage: { // args
+      cover?: string | null; // String
+      emoji?: string | null; // String
+      title?: string | null; // String
+      userId?: number | null; // Int
+    }
+  }
+  Query: {
+    block: { // args
+      id?: number | null; // Int
+    }
+    blocks: { // args
+      pageId?: number | null; // Int
+    }
+    page: { // args
+      id?: number | null; // Int
+    }
+    pages: { // args
+      userId?: number | null; // Int
+    }
+    user: { // args
+      id?: number | null; // Int
     }
   }
 }
