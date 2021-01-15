@@ -19,7 +19,7 @@ type Mutation {
   deleteBlock(blockId: Int): Block
   deletePage(pageId: Int): Page
   login(email: String!, password: String!): AuthPayload
-  register(email: String!, name: String, password: String!): AuthPayload
+  register(email: String!, name: String!, password: String!): AuthPayload
   updateBlock(content: String, pageId: Int, type: String): Block
   updatePage(cover: String, emoji: String, title: String, userId: Int): Page
 }
@@ -39,6 +39,7 @@ type Query {
   page(id: Int): Page
   pages(userId: Int): [Page]
   user(id: Int): User
+  viewer: User
 }
 
 type User {

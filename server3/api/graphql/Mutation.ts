@@ -10,23 +10,50 @@ export const Mutation = mutationType({
         t.field("register", {
             type: "AuthPayload",
             args: {
-                name: stringArg(),
+                name: nonNull(stringArg()),
                 email: nonNull(stringArg()),
                 password: nonNull(stringArg()),
             },
             resolve: async (_parent, { name, email, password }, ctx) => {
-                const hashedPassword = await hash(password, 10);
-                const user = await ctx.db.user.create({
-                    data: {
-                        name,
-                        email,
-                        password: hashedPassword,
-                    },
-                });
-                return {
-                    token: sign({ userId: user.id }, APP_SECRET),
-                    user,
-                };
+                try {
+                    const existingUser = await ctx.db.user.findUnique({
+                        where: {
+                            email: email,
+                        },
+                    });
+                    if (existingUser) {
+                        throw new Error("ERROR: Username already used.");
+                    }
+                    const hashedPassword = await hash(password, 10);
+                    const user = await ctx.db.user.create({
+                        data: {
+                            name,
+                            email,
+                            password: hashedPassword,
+                        },
+                    });
+                    return {
+                        token: sign({ userId: user.id }, APP_SECRET),
+                        user,
+                    };
+                } catch (e) {
+                    console.log(ctx.db.user);
+                    // console.log(e);
+                    return null;
+                }
+
+                // const hashedPassword = await hash(password, 10);
+                // const user = await ctx.db.user.create({
+                //     data: {
+                //         name,
+                //         email,
+                //         password: hashedPassword,
+                //     },
+                // });
+                // return {
+                //     token: sign({ userId: user.id }, APP_SECRET),
+                //     user,
+                // };
             },
         });
 
@@ -36,23 +63,47 @@ export const Mutation = mutationType({
                 email: nonNull(stringArg()),
                 password: nonNull(stringArg()),
             },
-            resolve: async (_parent, { email, password }, ctx) => {
-                const user = await ctx.db.user.findUnique({
-                    where: {
-                        email,
-                    },
-                });
-                if (!user) {
-                    throw new Error(`No user found for email: ${email}`);
+            resolve: async (_, { email, password }, ctx) => {
+                try {
+                    const user = await ctx.db.user.findUnique({
+                        where: {
+                            email,
+                        },
+                    });
+                    if (!user) {
+                        throw new Error(`No user found for email: ${email}`);
+                    }
+                    const passwordValid = await compare(
+                        password,
+                        user.password
+                    );
+                    if (!passwordValid) {
+                        throw new Error("Invalid password");
+                    }
+                    return {
+                        token: sign({ userId: user.id }, APP_SECRET),
+                        user,
+                    };
+                } catch (e) {
+                    console.log(e);
                 }
-                const passwordValid = await compare(password, user.password);
-                if (!passwordValid) {
-                    throw new Error("Invalid password");
-                }
-                return {
-                    token: sign({ userId: user.id }, APP_SECRET),
-                    user,
-                };
+
+                // const user = await ctx.db.user.findUnique({
+                //     where: {
+                //         email,
+                //     },
+                // });
+                // if (!user) {
+                //     throw new Error(`No user found for email: ${email}`);
+                // }
+                // const passwordValid = await compare(password, user.password);
+                // if (!passwordValid) {
+                //     throw new Error("Invalid password");
+                // }
+                // return {
+                //     token: sign({ userId: user.id }, APP_SECRET),
+                //     user,
+                // };
             },
         });
 

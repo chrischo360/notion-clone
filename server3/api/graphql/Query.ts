@@ -17,6 +17,12 @@ export const Query = queryType({
             },
         });
 
+        t.field("viewer", {
+            type: "User",
+            resolve: (parents, args, ctx) => {
+                return ctx.currentUser;
+            },
+        });
         t.list.field("pages", {
             type: "Page",
             args: {

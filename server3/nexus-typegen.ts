@@ -102,6 +102,7 @@ export interface NexusGenFieldTypes {
     page: NexusGenRootTypes['Page'] | null; // Page
     pages: Array<NexusGenRootTypes['Page'] | null> | null; // [Page]
     user: NexusGenRootTypes['User'] | null; // User
+    viewer: NexusGenRootTypes['User'] | null; // User
   }
   User: { // field return type
     confirmed: string | null; // String
@@ -145,6 +146,7 @@ export interface NexusGenFieldTypeNames {
     page: 'Page'
     pages: 'Page'
     user: 'User'
+    viewer: 'User'
   }
   User: { // field return type name
     confirmed: 'String'
@@ -178,7 +180,7 @@ export interface NexusGenArgTypes {
     }
     register: { // args
       email: string; // String!
-      name?: string | null; // String
+      name: string; // String!
       password: string; // String!
     }
     updateBlock: { // args
