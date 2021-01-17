@@ -1,8 +1,8 @@
-query getPage($pageId: Float!) {
-  getPage(pageId: $pageId) {
-    id
-    cover
-    title
-    emoji
-  }
+query getPage($pageId: Int!) {
+    page(id: $pageId) {
+        id
+        cover
+        title
+        emoji
+    }
 }

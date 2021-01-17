@@ -21,9 +21,9 @@ export interface Context {
 //   }
 
 export default async ({ req }) => {
-    console.log(req);
+    // console.log(req);
     const currentUser = await getUser(req.get("Authorization"), APP_SECRET, db);
-    console.log("currentUser:", currentUser);
+    // console.log("currentUser:", currentUser);
     return {
         db,
         currentUser,
@@ -38,7 +38,6 @@ export default async ({ req }) => {
 // // const currentUser = async (req) => {
 // //     await getUser(req.get("Authorization"), APP_SECRET, db);
 // // };
-
 // const user = getCurrentUser(req);
 
 // export const context = {

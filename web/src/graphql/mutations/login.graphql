@@ -1,7 +1,11 @@
-mutation login($input: LoginInput!) {
-  login(input: $input) {
-    id
-    username
-    email
-  }
+mutation login($email: String!, $password: String!) {
+    login(email: $email, password: $password) {
+        user {
+            email
+            name
+            confirmed
+            id
+        }
+        token
+    }
 }
