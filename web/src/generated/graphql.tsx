@@ -180,6 +180,17 @@ export type RegisterMutation = (
   )> }
 );
 
+export type GetMeQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetMeQuery = (
+  { __typename?: 'Query' }
+  & { me?: Maybe<(
+    { __typename?: 'User' }
+    & Pick<User, 'id' | 'email' | 'name'>
+  )> }
+);
+
 export type GetPageQueryVariables = Exact<{
   pageId: Scalars['Int'];
 }>;
@@ -190,6 +201,17 @@ export type GetPageQuery = (
   & { page?: Maybe<(
     { __typename?: 'Page' }
     & Pick<Page, 'id' | 'cover' | 'title' | 'emoji'>
+  )> }
+);
+
+export type GetViewerQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetViewerQuery = (
+  { __typename?: 'Query' }
+  & { viewer?: Maybe<(
+    { __typename?: 'User' }
+    & Pick<User, 'id' | 'email' | 'name'>
   )> }
 );
 
@@ -273,6 +295,40 @@ export function useRegisterMutation(baseOptions?: Apollo.MutationHookOptions<Reg
 export type RegisterMutationHookResult = ReturnType<typeof useRegisterMutation>;
 export type RegisterMutationResult = Apollo.MutationResult<RegisterMutation>;
 export type RegisterMutationOptions = Apollo.BaseMutationOptions<RegisterMutation, RegisterMutationVariables>;
+export const GetMeDocument = gql`
+    query getMe {
+  me {
+    id
+    email
+    name
+  }
+}
+    `;
+
+/**
+ * __useGetMeQuery__
+ *
+ * To run a query within a React component, call `useGetMeQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetMeQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetMeQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useGetMeQuery(baseOptions?: Apollo.QueryHookOptions<GetMeQuery, GetMeQueryVariables>) {
+        return Apollo.useQuery<GetMeQuery, GetMeQueryVariables>(GetMeDocument, baseOptions);
+      }
+export function useGetMeLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetMeQuery, GetMeQueryVariables>) {
+          return Apollo.useLazyQuery<GetMeQuery, GetMeQueryVariables>(GetMeDocument, baseOptions);
+        }
+export type GetMeQueryHookResult = ReturnType<typeof useGetMeQuery>;
+export type GetMeLazyQueryHookResult = ReturnType<typeof useGetMeLazyQuery>;
+export type GetMeQueryResult = Apollo.QueryResult<GetMeQuery, GetMeQueryVariables>;
 export const GetPageDocument = gql`
     query getPage($pageId: Int!) {
   page(id: $pageId) {
@@ -309,3 +365,37 @@ export function useGetPageLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<Ge
 export type GetPageQueryHookResult = ReturnType<typeof useGetPageQuery>;
 export type GetPageLazyQueryHookResult = ReturnType<typeof useGetPageLazyQuery>;
 export type GetPageQueryResult = Apollo.QueryResult<GetPageQuery, GetPageQueryVariables>;
+export const GetViewerDocument = gql`
+    query getViewer {
+  viewer {
+    id
+    email
+    name
+  }
+}
+    `;
+
+/**
+ * __useGetViewerQuery__
+ *
+ * To run a query within a React component, call `useGetViewerQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetViewerQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetViewerQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useGetViewerQuery(baseOptions?: Apollo.QueryHookOptions<GetViewerQuery, GetViewerQueryVariables>) {
+        return Apollo.useQuery<GetViewerQuery, GetViewerQueryVariables>(GetViewerDocument, baseOptions);
+      }
+export function useGetViewerLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetViewerQuery, GetViewerQueryVariables>) {
+          return Apollo.useLazyQuery<GetViewerQuery, GetViewerQueryVariables>(GetViewerDocument, baseOptions);
+        }
+export type GetViewerQueryHookResult = ReturnType<typeof useGetViewerQuery>;
+export type GetViewerLazyQueryHookResult = ReturnType<typeof useGetViewerLazyQuery>;
+export type GetViewerQueryResult = Apollo.QueryResult<GetViewerQuery, GetViewerQueryVariables>;

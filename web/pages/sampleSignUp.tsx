@@ -13,32 +13,57 @@ import {
     useRegisterMutation,
     useLoginMutation,
 } from "../src/generated/graphql";
+import { setContext } from "apollo-link-context";
+import { useRouter } from "next/router";
 
 interface SignUpProps {}
 
 const SampleSignUp: React.FC<SignUpProps> = ({}) => {
-    const [registerMutation, { data, loading, error }] = useRegisterMutation();
-
-    const _confirm = async (data) => {
-        const { token } = data.userLogin;
-        _saveUserData(token);
-    };
-
-    const _saveUserData = async (token) => {
-        try {
-            await localStorage.setItem(AUTH_TOKEN, token);
-        } catch (e) {
-            console.log("ERROR: ", e);
-        }
-    };
+    const router = useRouter();
+    const [registerMutation, { data, error, loading }] = useRegisterMutation();
 
     return (
         <Formik
             initialValues={{ email: "", name: "", password: "" }}
-            onSubmit={() => _confirm()}
+            onSubmit={async (values) => {
+                console.log("test");
+                try {
+                    const response = await registerMutation({
+                        variables: {
+                            email: values.email,
+                            name: values.name,
+                            password: values.password,
+                        },
+                    });
+                } catch (e) {
+                    console.log("Error: ", e);
+                }
+                // console.log(response.data?.register?.token);
+                const token = response.data?.register?.token;
+                console.log("token: ", token);
+                try {
+                    localStorage.setItem("AUTH_TOKEN", token);
+                } catch (e) {
+                    console.log("Error ", e);
+                }
+
+                // const authLink = setContext(async (_, { headers }) => {
+                //     const token = await localStorage.getItem("AUTH_TOKEN");
+                //     return {
+                //         headers: {
+                //             ...headers,
+                //             authorization: token ? `Bearer ${token}` : "",
+                //         },
+                //     };
+                // });
+
+                console.log("response:", response);
+                // console.log("authLink:", authLink);
+                // router.push("/posts");
+            }}
         >
-            {(props) => (
-                <Form>
+            {({ handleSubmit, isSubmitting }) => (
+                <Form onSubmit={handleSubmit}>
                     <Field name="name">
                         {({ field, form }) => (
                             <FormControl
@@ -55,8 +80,18 @@ const SampleSignUp: React.FC<SignUpProps> = ({}) => {
                                 <FormErrorMessage>
                                     {form.errors.name}
                                 </FormErrorMessage>
+                            </FormControl>
+                        )}
+                    </Field>
 
-                                <FormLabel htmlFor="email">Email</FormLabel>
+                    <Field name="email">
+                        {({ field, form }) => (
+                            <FormControl
+                                isInvalid={
+                                    form.errors.email && form.touched.email
+                                }
+                            >
+                                <FormLabel htmlFor="name">Email</FormLabel>
                                 <Input
                                     {...field}
                                     id="email"
@@ -65,7 +100,18 @@ const SampleSignUp: React.FC<SignUpProps> = ({}) => {
                                 <FormErrorMessage>
                                     {form.errors.email}
                                 </FormErrorMessage>
+                            </FormControl>
+                        )}
+                    </Field>
 
+                    <Field name="password">
+                        {({ field, form }) => (
+                            <FormControl
+                                isInvalid={
+                                    form.errors.password &&
+                                    form.touched.password
+                                }
+                            >
                                 <FormLabel htmlFor="password">
                                     Password
                                 </FormLabel>
@@ -80,10 +126,11 @@ const SampleSignUp: React.FC<SignUpProps> = ({}) => {
                             </FormControl>
                         )}
                     </Field>
+
                     <Button
                         mt={4}
                         colorScheme="teal"
-                        isLoading={props.isSubmitting}
+                        isLoading={isSubmitting}
                         type="submit"
                     >
                         Submit

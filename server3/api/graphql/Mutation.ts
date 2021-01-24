@@ -3,7 +3,6 @@ import { compare, hash } from "bcryptjs";
 import { APP_SECRET, getUserId } from "../utils";
 
 import { intArg, mutationType, nonNull, nullable, stringArg } from "nexus";
-import { context } from "../context";
 
 export const Mutation = mutationType({
     definition(t) {
@@ -32,13 +31,15 @@ export const Mutation = mutationType({
                             password: hashedPassword,
                         },
                     });
+                    console.log("TEST TO SEE IF IT GETS HERE");
+
                     return {
                         token: sign({ userId: user.id }, APP_SECRET),
                         user,
                     };
                 } catch (e) {
                     console.log(ctx.db.user);
-                    // console.log(e);
+                    console.log(e);
                     return null;
                 }
 

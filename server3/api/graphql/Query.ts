@@ -23,6 +23,7 @@ export const Query = queryType({
                 return ctx.currentUser;
             },
         });
+
         t.list.field("pages", {
             type: "Page",
             args: {

@@ -21,9 +21,11 @@ export const getUserId = (context: Context) => {
 // export const getUser =
 
 export const getUser = async (authorization, secret, db) => {
+    // console.log("GETUSER");
     const bearerLength = "Bearer ".length;
     if (authorization && authorization.length > bearerLength) {
         const token = authorization.slice(bearerLength);
+        console.log("getUsertoken:", token);
         const { ok, result } = await new Promise((resolve) =>
             verify(token, secret, (err, result) => {
                 if (err) {
