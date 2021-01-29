@@ -1,0 +1,56 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model Block {
+  id      Int     @id @default(autoincrement())
+  content String  @default("")
+  // type    String  @default("TEXT")
+  type    Type    @default(TEXT)
+  pageId  Int
+  page    Page    @relation(fields: [pageId], references: [id])
+
+  @@index([pageId], name: "pageId")
+}
+
+model Page {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  cover     String?   @default("")
+  title     String
+  emoji     String?   @default("")
+  creatorId Int
+  user      User     @relation(fields: [creatorId], references: [id])
+  blocks    Block[]
+
+  @@index([creatorId], name: "creatorId")
+}
+
+model User {
+  id        Int     @id @default(autoincrement())
+  email     String  @unique
+  name      String
+  password  String  @default("")
+  // confirmed Boolean @default(false)
+  tokenVersion  Int @default(0)
+  pages      Page[]
+}
+
+enum Type {
+  TEXT
+  HEADING
+  PAGE
+  BULLET
+  NUMBERED
+  TODO
+  TOGGLE
+}

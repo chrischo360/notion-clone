@@ -1,0 +1,7 @@
+mutation updateBlock($content: String!, $type: String!, $blockId: Int!) {
+    updateBlock(content: $content, type: $type, blockId: $blockId) {
+        id
+        content
+        type
+    }
+}

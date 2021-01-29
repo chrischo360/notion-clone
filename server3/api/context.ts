@@ -21,7 +21,7 @@ export interface Context {
 //   }
 
 export default async ({ req }) => {
-    // console.log(req);
+    // console.log("auth:", req.headers.Authorization);
     const currentUser = await getUser(req.get("Authorization"), APP_SECRET, db);
     // console.log("currentUser:", currentUser);
     return {
