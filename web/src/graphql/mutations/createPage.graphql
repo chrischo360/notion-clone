@@ -1,0 +1,13 @@
+mutation createPage(
+    $title: String!
+    $emoji: String!
+    $cover: String!
+    $userId: Int!
+) {
+    createPage(title: $title, emoji: $emoji, cover: $cover, userId: $userId) {
+        id
+        title
+        cover
+        emoji
+    }
+}

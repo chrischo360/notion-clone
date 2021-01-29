@@ -39,9 +39,9 @@ model User {
   id        Int     @id @default(autoincrement())
   email     String  @unique
   name      String
-  confirmed Boolean @default(false)
-  tokenVersion  Int @default(0)
   password  String  @default("")
+  // confirmed Boolean @default(false)
+  tokenVersion  Int @default(0)
   pages      Page[]
 }
 

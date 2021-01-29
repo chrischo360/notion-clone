@@ -1,0 +1,13 @@
+mutation updatePage(
+    $title: String!
+    $cover: String!
+    $emoji: String!
+    $pageId: Int!
+) {
+    updatePage(title: $title, emoji: $emoji, cover: $cover, pageId: $pageId) {
+        id
+        title
+        cover
+        emoji
+    }
+}
