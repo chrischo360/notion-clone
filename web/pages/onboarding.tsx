@@ -27,30 +27,30 @@ const OnBoardingPage: React.FC<registerProps> = ({}) => {
             <Box>
                 <Formik
                     initialValues={{
-                        username: "",
+                        name: "",
                         // lastName: "",
                         password: "",
                         // avatarUrl: "",
                         email: "",
                     }}
                     validate={() => {}}
-                    onSubmit={async (values, { setErrors }) => {
-                        console.log("values", values);
+                    onSubmit={async ({name, email, password}, { setErrors }) => {
                         // const setValues = {
                         //   username: "changes?",
                         //   password: "gijsdiaosfouabf",
                         //   email: "chris@gmail.com",
                         // };
                         // const response =
-                        router.push("/posts/index");
+                        // router.push("/posts/index");
 
-                        await register({
+                        const response = await register({
                             variables: {
-                                username: values.username,
-                                email: values.email,
-                                password: values.password,
+                                name, email, password
                             },
                         });
+
+                        console.log("Response:", response)
+                        router.push("/login")
                         // router.push("/posts/index");
 
                         // if (response.data?.register.errors) {
@@ -94,14 +94,14 @@ const OnBoardingPage: React.FC<registerProps> = ({}) => {
                                 mb="20px"
                             />
 
-                            <Text>First Name</Text>
+                            <Text>Name</Text>
                             <Input
                                 placeholder="Ada"
-                                type="username"
-                                name="username"
+                                type="name"
+                                name="name"
                                 onChange={handleChange}
                                 onBlur={handleBlur}
-                                value={values.username}
+                                value={values.name}
                                 borderRadius="0px"
                                 mb="20px"
                             />

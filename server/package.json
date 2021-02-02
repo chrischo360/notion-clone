@@ -5,7 +5,8 @@
     "license": "MIT",
     "scripts": {
         "prisma generate": "prisma generate",
-        "prisma migrate": "migrate dev --name init --preview-feature",
+        "prisma migrate": "npx prisma migrate dev --name init --preview-feature",
+        "prisma migrate reset": "prisma migrate reset --preview-feature",
         "prisma studio": "prisma studio",
         "start": "ts-node src/index.ts",
         "dev": "ts-node-dev src/index.ts"

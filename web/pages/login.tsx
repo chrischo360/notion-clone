@@ -1,13 +1,33 @@
 import { Box, Heading, Button, Divider, Text, Input } from "@chakra-ui/react";
 import NotionHeader from "../src/components/header";
 import { FaGoogle, FaApple } from "react-icons/fa";
-import { useLoginMutation } from "../src/generated/graphql";
-import React from "react";
+import React, { useEffect } from "react";
 import { Form, Formik } from "formik";
+import {useLoginMutation} from "../src/generated/graphql"
+import { useRouter } from "next/router";
+import {accessToken, setAccessToken} from "../src/accessToken"
+import { useState } from "react";
 
 const LoginPage: React.FC = () => {
+    const router = useRouter();
     const [login] = useLoginMutation();
 
+
+    // const [loading, setLoading] = useState(true);
+    // useEffect(() => {
+    //     console.log("USE EFFECT")
+    //       fetch("http://localhost:4000/refresh_token", {
+    //         method: "POST",
+    //         credentials: "include"
+    //       }).then(async x => {
+    //         const { accessToken } = await x.json();
+    //         setAccessToken(accessToken);
+    //         console.log("ACCESS TOKEN:", accessToken)
+    //         setLoading(false);
+    //       });
+    //     }, []);
+  
+    
     return (
         <Box>
             <Formik
@@ -16,9 +36,21 @@ const LoginPage: React.FC = () => {
                     password: "",
                 }}
                 validate={() => {}}
-                onSubmit={async (values, { setErrors }) => {
-                    alert("test");
-                    console.log("values", values);
+                onSubmit={async ({email, password}, { setErrors }) => {
+                    console.log("Email:", email, "Password:", password)
+                    const response = await login({
+                        variables: {
+                            email,
+                            password
+                        }
+                    })
+                    console.log("Response:", response);
+                    
+                    if (response && response.data) {
+                        setAccessToken(response.data.login?.accessToken)
+                    }
+                    // router.push("/posts")
+
                 }}
             >
                 {({
