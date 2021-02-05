@@ -7,6 +7,7 @@ export const isAuth = ({ context }, next) => {
     const authorization = context.req.headers["authorization"];
 
     if (!authorization) {
+        console.log("isAuth")
         throw new Error("not authenticated");
     }
 

@@ -99,6 +99,7 @@ export interface NexusGenFieldTypes {
   Query: { // field return type
     block: NexusGenRootTypes['Block'] | null; // Block
     blocks: Array<NexusGenRootTypes['Block'] | null> | null; // [Block]
+    bye: Array<string | null> | null; // [String]
     me: NexusGenRootTypes['User'] | null; // User
     page: NexusGenRootTypes['Page'] | null; // Page
     pages: Array<NexusGenRootTypes['Page'] | null> | null; // [Page]
@@ -143,6 +144,7 @@ export interface NexusGenFieldTypeNames {
   Query: { // field return type name
     block: 'Block'
     blocks: 'Block'
+    bye: 'String'
     me: 'User'
     page: 'Page'
     pages: 'Page'

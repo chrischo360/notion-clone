@@ -11,27 +11,26 @@ const IndexPage = () => {
     //     // },
     // // });
     // const { data } = useGetViewerQuery();
-    const [loading, setLoading] = useState(true);
+    const { data } = useGetMeQuery({fetchPolicy: 'network-only'});
+
     useEffect(() => {
-        console.log("USE EFFECT")
           fetch("http://localhost:4000/refresh_token", {
             method: "POST",
             credentials: "include"
           }).then(async x => {
             const { accessToken } = await x.json();
+            console.log("JSON:", x)
             setAccessToken(accessToken);
-            console.log("ACCESS TOKEN:", accessToken)
-            setLoading(false);
+            console.log("ACCESS TOKEN IN PAGES/INDEX:", accessToken)
           });
         }, []);
 
-    const { data } = useGetMeQuery({fetchPolicy: 'network-only'});
     console.log(data?.me?.name)
 
     return (
         <div>
         <div>{data?.me?.email}</div>
-<div>{accessToken}</div>
+        <div>{accessToken}</div>
         </div>
         // <div>
         //     {data.page.title}

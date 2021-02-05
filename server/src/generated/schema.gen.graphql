@@ -46,6 +46,7 @@ type Page {
 type Query {
   block(id: Int): Block
   blocks(pageId: Int!): [Block]
+  bye: [String]
   me: User
   page(id: Int!): Page
   pages(userId: Int!): [Page]

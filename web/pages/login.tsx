@@ -49,7 +49,7 @@ const LoginPage: React.FC = () => {
                     if (response && response.data) {
                         setAccessToken(response.data.login?.accessToken)
                     }
-                    // router.push("/posts")
+                    router.push("/posts")
 
                 }}
             >

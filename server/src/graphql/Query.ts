@@ -30,6 +30,36 @@ export const Query = queryType({
             },
         });
 
+        t.list.field("bye", {
+            type: "String",
+            resolve: (_parent, _args, ctx ) => {
+                        ctx.prisma.$use( async (params: any, next: any) => {
+                            const authorization = ctx.req.headers["authorization"];
+        
+                            if (!authorization) {
+                                console.log("isAuth")
+                                throw new Error("not authenticated");
+                            }
+                        
+                            try {
+                                const token = authorization.split(" ")[1];
+                                const payload = verify(token, process.env.ACCESS_TOKEN_SECRET!);
+                                ctx.payload = payload as any;
+                            } catch (err) {
+                                console.log(err);
+                                throw new Error("not authenticated");
+                            }
+                        
+                            return next();                
+                        })
+                        
+        
+        
+                        console.log(ctx.payload)
+                        return `your user id is: ${ctx.payload!.userId}`;
+                    }        
+            })
+
         t.list.field("users", {
             type: "User",
             resolve: async (_parent, _args, ctx) => {

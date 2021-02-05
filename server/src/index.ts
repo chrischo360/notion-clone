@@ -22,7 +22,8 @@ const main = async () => {
     app.use(cookieParser());
 
     app.post("/refresh_token", async (req, res) => {
-        const token = req.cookies.jid;
+        const token = req.cookies.JID;
+        console.log("Refresh_token file:", token)
         if (!token) {
             return res.send({ ok: false, accessToken: "" });
         }
@@ -34,6 +35,7 @@ const main = async () => {
             console.log(err);
             return res.send({ ok: false, accessToken: "" });
         }
+        console.log("TEST TO SEE IF IT GETS TO REFRESH TOKEN")
 
         // token is valid and
         // we can send back an access token
@@ -50,6 +52,8 @@ const main = async () => {
         }
 
         sendRefreshToken(res, createRefreshToken(user));
+
+        console.log("TEST TO SEE IF IT GETS TO REFRESH TOKEN")
 
         return res.send({ ok: true, accessToken: createAccessToken(user) });
     });

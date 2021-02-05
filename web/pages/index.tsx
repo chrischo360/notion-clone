@@ -1,14 +1,28 @@
 import { Box, Button, Image, Heading, Input } from "@chakra-ui/react";
 import NextLink from "next/link";
-import React from "react";
+import React, { useEffect } from "react";
 import { initializeApollo } from "../src/lib/apolloClient";
 import { SiNotion } from "react-icons/si";
 // import NavBarLinks from "../src/components/navBarLinks";
 import { Example, RadioCard } from "../src/components/radio";
 import NotionHeader from "../src/components/header";
 import { GetStaticProps } from "next";
+import { setAccessToken } from "../src/accessToken";
 
 const IndexPage: React.FC = () => {
+    useEffect(() => {
+        console.log("USE EFFECT INDEX PAGE")
+        fetch("http://localhost:4000/refresh_token", {
+          method: "POST",
+          credentials: "include"
+        }).then(async x => {
+          const { accessToken } = await x.json();
+          console.log("JSON:", x)
+          setAccessToken(accessToken);
+          console.log("ACCESS TOKEN IN PAGES/INDEX:", accessToken)
+        });
+      }, []);
+
     return (
         <Box minW="100%" minH="100vh">
             <NotionHeader />

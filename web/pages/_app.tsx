@@ -14,6 +14,19 @@ function MyApp({ Component, pageProps }: AppProps) {
     const apolloClient = useApollo(pageProps.initialApolloState);
     const [loading, setLoading] = useState(true);
 
+    useEffect(() => {
+        console.log("_App UseEffect")
+        fetch("http://localhost:4000/refresh_token", {
+          method: "POST",
+          credentials: "include"
+        }).then(async x => {
+          const { accessToken } = await x.json();
+          console.log("JSON:", x)
+          setAccessToken(accessToken);
+          console.log("ACCESS TOKEN IN PAGES/INDEX:", accessToken)
+        });
+      }, []);
+
 
     // useEffect(() => {
     //   console.log("USE EFFECT")
