@@ -1,8 +1,8 @@
 import { Box } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import React from "react";
-import PageLayout from "../../src/components/pageLayout";
-import SideBar from "../../src/components/sideBar";
+import PageLayout from "../../src/components/PageLayout";
+import SideBar from "../../src/components/SideBar";
 
 interface PageProps {}
 

@@ -8,7 +8,7 @@ import {
 } from "@chakra-ui/react";
 import React, { SyntheticEvent, useState } from "react";
 
-export const RadioCard = (props) => {
+export const RadioCard = (props: any) => {
     const { getInputProps, getCheckboxProps } = useRadio(props);
 
     const input = getInputProps();

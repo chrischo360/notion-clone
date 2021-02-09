@@ -1,31 +1,47 @@
-import { Box, Heading, Button, Divider, Text, Input } from "@chakra-ui/react";
-import NotionHeader from "../src/components/Header";
-import { FaGoogle, FaApple } from "react-icons/fa";
+import { Box, Heading, Button, Divider, Input, Text } from "@chakra-ui/react";
+import { Formik, Form } from "formik";
 import { useRouter } from "next/router";
-import React from "react";
-import { Form, Formik } from "formik";
+import React from "react"
+import Layout from "../components/Layout"
+import NotionHeader from "../components/NotionHeader";
+import { useLoginMutation } from "../generated/graphql";
+import { setAccessToken } from "../lib/accessToken";
+import { FaGoogle, FaApple } from "react-icons/fa";
 
-interface signupProps {}
+interface loginProps{}
 
-const SignupPage: React.FC<signupProps> = () => {
+const Login: React.FC<loginProps> = ({}) => {
     const router = useRouter();
-
+    const [login] = useLoginMutation();
+    
     return (
-        <Box>
+        <Layout title="Login">
+            <Box>
             <Formik
                 initialValues={{
                     email: "",
+                    password: "",
                 }}
                 validate={() => {}}
-                onSubmit={async (values, { setErrors }) => {
-                    console.log("values", values);
-                    router.push("/onboarding");
+                onSubmit={async ({email, password}) => {
+                    console.log("Email:", email, "Password:", password)
+                    const response = await login({
+                        variables: {
+                            email,
+                            password
+                        }
+                    })
+                    console.log("Response:", response);
+                    
+                    if (response && response.data) {
+                        setAccessToken(response.data.login?.accessToken)
+                    }
+                    router.push("/pages")
+
                 }}
             >
                 {({
                     values,
-                    errors,
-                    touched,
                     handleChange,
                     handleBlur,
                     handleSubmit,
@@ -45,7 +61,7 @@ const SignupPage: React.FC<signupProps> = () => {
                                 alignItems="center"
                             >
                                 <Heading size="2xl" mt="150px">
-                                    Sign up
+                                    Log In
                                 </Heading>
                                 <Box
                                     display="flex"
@@ -79,12 +95,6 @@ const SignupPage: React.FC<signupProps> = () => {
                                     margin="50px"
                                 />
                             </Box>
-                            <Box minHeight="100px">
-                                <Divider
-                                    orientation="horizontal"
-                                    width="100px"
-                                />
-                            </Box>
                             <Box
                                 display="flex"
                                 flexDirection="column"
@@ -96,19 +106,28 @@ const SignupPage: React.FC<signupProps> = () => {
                                 <Box display="flex" flexDirection="column">
                                     <Input
                                         colorScheme="gray"
-                                        placeholder="Enter Your Email Adress"
+                                        placeholder="Enter Your Email Address"
                                         size="lg"
                                         variant="outline"
-                                        bg="gray"
+                                        // bg="gray"
+                                        type="email"
+                                        name="email"
                                         onChange={handleChange}
                                         onBlur={handleBlur}
                                         value={values.email}
-                                        name="email"
-                                        type="email"
                                     />
-                                    {errors.email &&
-                                        touched.email &&
-                                        errors.email}
+                                    <Input
+                                        colorScheme="gray"
+                                        placeholder="Enter Your password"
+                                        size="lg"
+                                        variant="outline"
+                                        // bg="gray"
+                                        type="password"
+                                        name="password"
+                                        onChange={handleChange}
+                                        onBlur={handleBlur}
+                                        value={values.password}
+                                    />
                                     <Button
                                         colorScheme="red"
                                         variant="outline"
@@ -121,8 +140,8 @@ const SignupPage: React.FC<signupProps> = () => {
                                     <Button
                                         variant="link"
                                         mt="20px"
-                                        type="submit"
                                         isLoading={isSubmitting}
+                                        type="submit"
                                     >
                                         Forgot password?
                                     </Button>
@@ -133,7 +152,8 @@ const SignupPage: React.FC<signupProps> = () => {
                 )}
             </Formik>
         </Box>
-    );
-};
+        </Layout>
+    )
+}
 
-export default SignupPage;
+export default Login

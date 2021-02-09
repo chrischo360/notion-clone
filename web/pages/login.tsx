@@ -5,7 +5,7 @@ import React, { useEffect } from "react";
 import { Form, Formik } from "formik";
 import {useLoginMutation} from "../src/generated/graphql"
 import { useRouter } from "next/router";
-import {accessToken, setAccessToken} from "../src/accessToken"
+import {accessToken, setAccessToken} from "../src/lib/accessToken"
 import { useState } from "react";
 
 const LoginPage: React.FC = () => {

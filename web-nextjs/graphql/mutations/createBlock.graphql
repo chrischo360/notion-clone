@@ -1,0 +1,7 @@
+mutation createBlock($content: String!, $type: String!) {
+    createBlock(input: {content: $content, type: $type}) {
+        id
+        content
+        type
+    }
+}

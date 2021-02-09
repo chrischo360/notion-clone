@@ -1,7 +1,7 @@
 import { useMemo } from "react";
 import { ApolloClient, HttpLink, InMemoryCache, ApolloLink, Observable, createHttpLink  } from "@apollo/client";
 import { TokenRefreshLink } from "apollo-link-token-refresh";
-import { accessToken, getAccessToken, setAccessToken } from "../accessToken";
+import { accessToken, getAccessToken, setAccessToken } from "./accessToken";
 import jwtDecode from "jwt-decode";
 import { from } from "apollo-link";
 import { setContext } from "@apollo/client/link/context";

@@ -1,31 +1,25 @@
-import { Box, Button, Image, Heading, Input } from "@chakra-ui/react";
-import NextLink from "next/link";
-import React, { useEffect } from "react";
-import { initializeApollo } from "../src/lib/apolloClient";
-import { SiNotion } from "react-icons/si";
-// import NavBarLinks from "../src/components/navBarLinks";
-// import { Example, RadioCard } from "../src/components/radio";
-import NotionHeader from "../src/components/header";
-import { GetStaticProps } from "next";
-import { setAccessToken } from "../src/lib/accessToken";
+import React from "react";
+import {useUsersQuery  } from "../generated/graphql";
+import Layout from "../components/Layout";
+import NotionHeader from "../components/NotionHeader";
+import { Box, Heading, Input, Button, Image } from "@chakra-ui/react";
+// import {Showcase} from "../components/Showcase";
 
-const IndexPage: React.FC = () => {
-    // useEffect(() => {
-    //     console.log("USE EFFECT INDEX PAGE")
-    //     fetch("http://localhost:4000/refresh_token", {
-    //       method: "POST",
-    //       credentials: "include"
-    //     }).then(async x => {
-    //       const { accessToken } = await x.json();
-    //       console.log("JSON:", x)
-    //       setAccessToken(accessToken);
-    //       console.log("ACCESS TOKEN IN PAGES/INDEX:", accessToken)
-    //     });
-    //   }, []);
+const Index = () => {
+  const { data } = useUsersQuery({ fetchPolicy: "network-only" });
 
+  if (!data) {
     return (
-        <Box minW="100%" minH="100vh">
-            <NotionHeader />
+      <Layout title="Loading...">
+        <div>loading...</div>
+      </Layout>
+    );
+  }
+
+  return (
+    <Layout title="Notion - The All in-one workspace">
+      <NotionHeader/>
+      <Box minW="100%" minH="100vh">
             <Box display="flex" flexDirection="column" alignItems="center">
                 <Box
                     size="500px"
@@ -69,41 +63,26 @@ const IndexPage: React.FC = () => {
                     </Heading>
                 </Box>
                 <Box marginTop="0px">
-                    <Example />
+                    {/* <Showcase/> */}
                 </Box>
             </Box>
         </Box>
-    );
+    </Layout>
+    // <Layout>
+    //   <div>
+    //     <div>users:</div>
+    //     <ul>
+    //       {data.users.map(x => {
+    //         return (
+    //           <li key={x.id}>
+    //             {x.email}, {x.id}
+    //           </li>
+    //         );
+    //       })}
+    //     </ul>
+    //   </div>
+    // </Layout>
+  );
 };
 
-// export const getStaticProps: GetStaticProps = async () => {
-//     const apolloClient = initializeApollo();
-
-//     // await apolloClient.query({
-//     //   query: GET_PAGE_QUERY,
-//     // });
-
-//     return {
-//         props: {
-//             initialApolloState: apolloClient.cache.extract(),
-//         },
-//         revalidate: 1,
-//     };
-// };
-
-// // export async function getStaticProps() {
-// //     const apolloClient = initializeApollo();
-
-// //     // await apolloClient.query({
-// //     //   query: GET_PAGE_QUERY,
-// //     // });
-
-// //     return {
-// //         props: {
-// //             initialApolloState: apolloClient.cache.extract(),
-// //         },
-// //         revalidate: 1,
-// //     };
-// }
-
-export default IndexPage;
+export default Index

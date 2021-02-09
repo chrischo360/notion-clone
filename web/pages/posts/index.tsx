@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import {
     useGetMeQuery,
 } from "../../src/generated/graphql";
-import {accessToken, setAccessToken} from "../../src/accessToken"
+import {accessToken, setAccessToken} from "../../src/lib/accessToken"
 
 const IndexPage = () => {
     // // const { data, loading, error } = useGetPageQuery({
