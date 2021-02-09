@@ -1,7 +1,0 @@
-mutation createBlock($content: String!, $type: BlockType!, $pageId: Int!) {
-    createBlock(content: $content, type: $type, pageId: $pageId) {
-        id
-        content
-        type
-    }
-}

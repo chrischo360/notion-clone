@@ -1,8 +1,0 @@
-query getPage($pageId: Int!) {
-    page(id: $pageId) {
-        id
-        cover
-        title
-        emoji
-    }
-}
