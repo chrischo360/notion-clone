@@ -6,7 +6,7 @@ Backend built with Typegraphql, TypeORM, Apollo Server, Express and MySQL
 Frontend built with Typescript, NextJS, and Apollo Client
 
 To run this repo:
-1. ```git clone``` this repository
+1. ```git clone```
 2. Change directory to server and install packages through ```yarn``` command
 3. Edit ormconfig.json to match database with your needs.
 4. Run server with ```yarn start``` in server directory
