@@ -10,17 +10,21 @@ export class User extends BaseEntity {
   id: number;
 
   @Field()
-  @Column("text")
+  @Column( {unique: true})
   email: string;
   
   @Field()
-  @Column("text")
+  @Column()
   password: string;
 
   @Field()
-  @Column("int", { default: 0 })
+  @Column({ default: 0 })
   tokenVersion: number;
 
+  @Field()
+  @Column({default: ""})
+  avatarUrl: string;
+
   @OneToMany(() => Page, page => page.user)
-  page: Page;
+  pages: Page[];
 }

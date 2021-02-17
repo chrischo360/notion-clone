@@ -3,6 +3,10 @@ mutation updatePage(
     $cover: String!
     $emoji: String!
     $pageId: Float!
+    $userId: Float!
 ) {
-    updatePage(input: {title: $title, emoji: $emoji, cover: $cover}, pageId: $pageId)
+    updatePage(
+        input: { title: $title, emoji: $emoji, cover: $cover, userId: $userId }
+        pageId: $pageId
+    )
 }

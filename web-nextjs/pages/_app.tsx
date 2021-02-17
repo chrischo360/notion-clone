@@ -10,7 +10,7 @@ class MyApp extends App<any> {
     return (
       <ApolloProvider client={apolloClient}>
         <ChakraProvider>
-        <Component {...pageProps} />
+          <Component {...pageProps} />
         </ChakraProvider>
       </ApolloProvider>
     );

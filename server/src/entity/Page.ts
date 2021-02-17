@@ -35,8 +35,13 @@ export class Page extends BaseEntity {
   // , user => user.page
   )
   user: User;
+  @Column()
   @RelationId((page: Page) => page.user)
   userId: number
+
+  // @Field(() => User)
+  // @ManyToOne(() => User, user => user.pages)
+  // user: User
 
   @OneToMany(() => Block, block => block.page)
   block: Block

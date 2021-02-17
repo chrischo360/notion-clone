@@ -37,12 +37,18 @@ export type QueryPageArgs = {
   pageId: Scalars['Float'];
 };
 
+
+export type QueryPagesArgs = {
+  userId: Scalars['Float'];
+};
+
 export type User = {
   __typename?: 'User';
   id: Scalars['Int'];
   email: Scalars['String'];
   password: Scalars['String'];
   tokenVersion: Scalars['Float'];
+  avatarUrl: Scalars['String'];
 };
 
 export type Block = {
@@ -68,11 +74,11 @@ export type Mutation = {
   __typename?: 'Mutation';
   logout: Scalars['Boolean'];
   revokeRefreshTokensForUser: Scalars['Boolean'];
-  login: LoginResponse;
-  register: Scalars['Boolean'];
+  login: UserResponse;
+  register: UserResponse;
   createBlock: Block;
   updateBlock: Scalars['Boolean'];
-  createPage: Page;
+  createPage: Scalars['Boolean'];
   updatePage: Scalars['Boolean'];
 };
 
@@ -116,10 +122,17 @@ export type MutationUpdatePageArgs = {
   pageId: Scalars['Float'];
 };
 
-export type LoginResponse = {
-  __typename?: 'LoginResponse';
-  accessToken: Scalars['String'];
-  user: User;
+export type UserResponse = {
+  __typename?: 'UserResponse';
+  errors?: Maybe<Array<FieldError>>;
+  accessToken?: Maybe<Scalars['String']>;
+  user?: Maybe<User>;
+};
+
+export type FieldError = {
+  __typename?: 'FieldError';
+  field: Scalars['String'];
+  message: Scalars['String'];
 };
 
 export type BlockInput = {
@@ -131,6 +144,7 @@ export type PageInput = {
   cover: Scalars['String'];
   title: Scalars['String'];
   emoji: Scalars['String'];
+  userId: Scalars['Float'];
 };
 
 export type CreateBlockMutationVariables = Exact<{
@@ -151,15 +165,13 @@ export type CreatePageMutationVariables = Exact<{
   title: Scalars['String'];
   emoji: Scalars['String'];
   cover: Scalars['String'];
+  userId: Scalars['Float'];
 }>;
 
 
 export type CreatePageMutation = (
   { __typename?: 'Mutation' }
-  & { createPage: (
-    { __typename?: 'Page' }
-    & Pick<Page, 'id' | 'title' | 'cover' | 'emoji'>
-  ) }
+  & Pick<Mutation, 'createPage'>
 );
 
 export type LoginMutationVariables = Exact<{
@@ -171,12 +183,15 @@ export type LoginMutationVariables = Exact<{
 export type LoginMutation = (
   { __typename?: 'Mutation' }
   & { login: (
-    { __typename?: 'LoginResponse' }
-    & Pick<LoginResponse, 'accessToken'>
-    & { user: (
+    { __typename?: 'UserResponse' }
+    & Pick<UserResponse, 'accessToken'>
+    & { user?: Maybe<(
       { __typename?: 'User' }
       & Pick<User, 'id' | 'email'>
-    ) }
+    )>, errors?: Maybe<Array<(
+      { __typename?: 'FieldError' }
+      & Pick<FieldError, 'field' | 'message'>
+    )>> }
   ) }
 );
 
@@ -196,7 +211,17 @@ export type RegisterMutationVariables = Exact<{
 
 export type RegisterMutation = (
   { __typename?: 'Mutation' }
-  & Pick<Mutation, 'register'>
+  & { register: (
+    { __typename?: 'UserResponse' }
+    & Pick<UserResponse, 'accessToken'>
+    & { user?: Maybe<(
+      { __typename?: 'User' }
+      & Pick<User, 'id' | 'email'>
+    )>, errors?: Maybe<Array<(
+      { __typename?: 'FieldError' }
+      & Pick<FieldError, 'field' | 'message'>
+    )>> }
+  ) }
 );
 
 export type RevokeRefreshTokensMutationVariables = Exact<{
@@ -226,6 +251,7 @@ export type UpdatePageMutationVariables = Exact<{
   cover: Scalars['String'];
   emoji: Scalars['String'];
   pageId: Scalars['Float'];
+  userId: Scalars['Float'];
 }>;
 
 
@@ -264,6 +290,19 @@ export type GetPageQuery = (
     { __typename?: 'Page' }
     & Pick<Page, 'cover' | 'title' | 'emoji'>
   ) }
+);
+
+export type GetPagesQueryVariables = Exact<{
+  userId: Scalars['Float'];
+}>;
+
+
+export type GetPagesQuery = (
+  { __typename?: 'Query' }
+  & { pages: Array<(
+    { __typename?: 'Page' }
+    & Pick<Page, 'id' | 'createdAt' | 'updatedAt' | 'cover' | 'title' | 'emoji'>
+  )> }
 );
 
 export type UsersQueryVariables = Exact<{ [key: string]: never; }>;
@@ -314,13 +353,10 @@ export type CreateBlockMutationHookResult = ReturnType<typeof useCreateBlockMuta
 export type CreateBlockMutationResult = Apollo.MutationResult<CreateBlockMutation>;
 export type CreateBlockMutationOptions = Apollo.BaseMutationOptions<CreateBlockMutation, CreateBlockMutationVariables>;
 export const CreatePageDocument = gql`
-    mutation createPage($title: String!, $emoji: String!, $cover: String!) {
-  createPage(input: {title: $title, emoji: $emoji, cover: $cover}) {
-    id
-    title
-    cover
-    emoji
-  }
+    mutation createPage($title: String!, $emoji: String!, $cover: String!, $userId: Float!) {
+  createPage(
+    input: {title: $title, emoji: $emoji, cover: $cover, userId: $userId}
+  )
 }
     `;
 export type CreatePageMutationFn = Apollo.MutationFunction<CreatePageMutation, CreatePageMutationVariables>;
@@ -341,6 +377,7 @@ export type CreatePageMutationFn = Apollo.MutationFunction<CreatePageMutation, C
  *      title: // value for 'title'
  *      emoji: // value for 'emoji'
  *      cover: // value for 'cover'
+ *      userId: // value for 'userId'
  *   },
  * });
  */
@@ -358,6 +395,10 @@ export const LoginDocument = gql`
       email
     }
     accessToken
+    errors {
+      field
+      message
+    }
   }
 }
     `;
@@ -418,7 +459,17 @@ export type LogoutMutationResult = Apollo.MutationResult<LogoutMutation>;
 export type LogoutMutationOptions = Apollo.BaseMutationOptions<LogoutMutation, LogoutMutationVariables>;
 export const RegisterDocument = gql`
     mutation register($email: String!, $password: String!) {
-  register(email: $email, password: $password)
+  register(email: $email, password: $password) {
+    user {
+      id
+      email
+    }
+    accessToken
+    errors {
+      field
+      message
+    }
+  }
 }
     `;
 export type RegisterMutationFn = Apollo.MutationFunction<RegisterMutation, RegisterMutationVariables>;
@@ -510,9 +561,9 @@ export type UpdateBlockMutationHookResult = ReturnType<typeof useUpdateBlockMuta
 export type UpdateBlockMutationResult = Apollo.MutationResult<UpdateBlockMutation>;
 export type UpdateBlockMutationOptions = Apollo.BaseMutationOptions<UpdateBlockMutation, UpdateBlockMutationVariables>;
 export const UpdatePageDocument = gql`
-    mutation updatePage($title: String!, $cover: String!, $emoji: String!, $pageId: Float!) {
+    mutation updatePage($title: String!, $cover: String!, $emoji: String!, $pageId: Float!, $userId: Float!) {
   updatePage(
-    input: {title: $title, emoji: $emoji, cover: $cover}
+    input: {title: $title, emoji: $emoji, cover: $cover, userId: $userId}
     pageId: $pageId
   )
 }
@@ -536,6 +587,7 @@ export type UpdatePageMutationFn = Apollo.MutationFunction<UpdatePageMutation, U
  *      cover: // value for 'cover'
  *      emoji: // value for 'emoji'
  *      pageId: // value for 'pageId'
+ *      userId: // value for 'userId'
  *   },
  * });
  */
@@ -643,6 +695,44 @@ export function useGetPageLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<Ge
 export type GetPageQueryHookResult = ReturnType<typeof useGetPageQuery>;
 export type GetPageLazyQueryHookResult = ReturnType<typeof useGetPageLazyQuery>;
 export type GetPageQueryResult = Apollo.QueryResult<GetPageQuery, GetPageQueryVariables>;
+export const GetPagesDocument = gql`
+    query getPages($userId: Float!) {
+  pages(userId: $userId) {
+    id
+    createdAt
+    updatedAt
+    cover
+    title
+    emoji
+  }
+}
+    `;
+
+/**
+ * __useGetPagesQuery__
+ *
+ * To run a query within a React component, call `useGetPagesQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetPagesQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetPagesQuery({
+ *   variables: {
+ *      userId: // value for 'userId'
+ *   },
+ * });
+ */
+export function useGetPagesQuery(baseOptions: Apollo.QueryHookOptions<GetPagesQuery, GetPagesQueryVariables>) {
+        return Apollo.useQuery<GetPagesQuery, GetPagesQueryVariables>(GetPagesDocument, baseOptions);
+      }
+export function useGetPagesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetPagesQuery, GetPagesQueryVariables>) {
+          return Apollo.useLazyQuery<GetPagesQuery, GetPagesQueryVariables>(GetPagesDocument, baseOptions);
+        }
+export type GetPagesQueryHookResult = ReturnType<typeof useGetPagesQuery>;
+export type GetPagesLazyQueryHookResult = ReturnType<typeof useGetPagesLazyQuery>;
+export type GetPagesQueryResult = Apollo.QueryResult<GetPagesQuery, GetPagesQueryVariables>;
 export const UsersDocument = gql`
     query Users {
   users {

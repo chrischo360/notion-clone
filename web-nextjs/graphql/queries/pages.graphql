@@ -1,0 +1,10 @@
+query getPages($userId: Float!) {
+    pages(userId: $userId) {
+        id
+        createdAt
+        updatedAt
+        cover
+        title
+        emoji
+    }
+}

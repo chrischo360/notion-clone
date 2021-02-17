@@ -3,10 +3,11 @@
     "configurations": [
         {
             "type": "node",
-            "request": "launch",
-            "name": "Launch Program",
-            "skipFiles": ["<node_internals>/**"],
-            "program": "${workspaceFolder}\\server3/api/app.ts"
+            "request": "attach",
+            "name": "Attatch by Process ID",
+            // "skipFiles": ["<node_internals>/**"],
+            // "program": "${workspaceFolder}\\server/src/index.ts",
+            "processId": "${command:PickProcess}"
         }
     ]
 }

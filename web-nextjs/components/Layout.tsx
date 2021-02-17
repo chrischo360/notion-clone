@@ -2,14 +2,13 @@ import * as React from "react";
 import Head from "next/head";
 // import { Header } from "./Header";
 
-
 type Props = {
   title?: string;
 };
 
 const Layout: React.FunctionComponent<Props> = ({
   children,
-  title 
+  title,
   // = "This is the default title"
 }) => (
   <div>

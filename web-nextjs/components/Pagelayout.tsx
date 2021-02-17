@@ -1,14 +1,12 @@
-import { Box } from "@chakra-ui/react"
-import React from "react"
+import { Grid } from "@chakra-ui/react";
+import React from "react";
 
-interface pagelayoutProps{
-    children: React.ReactNode
+interface pagelayoutProps {
+    children: React.ReactNode;
 }
 
-export const Pagelayout: React.FC<pagelayoutProps> = ({children}) => {
+export const Pagelayout: React.FC<pagelayoutProps> = ({ children }) => {
     return (
-        <Box display="flex" flexDirection="row">
-            {children}
-        </Box>
-    )
-}
+        <Grid templateColumns="[sidebar] 238px [content] auto">{children}</Grid>
+    );
+};

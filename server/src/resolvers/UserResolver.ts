@@ -3,8 +3,6 @@ import {
   Query,
   Mutation,
   Arg,
-  ObjectType,
-  Field,
   Ctx,
   UseMiddleware,
   Int
@@ -17,16 +15,32 @@ import { isAuth } from "../isAuth";
 import { sendRefreshToken } from "../sendRefreshToken";
 import { getConnection } from "typeorm";
 import { verify } from "jsonwebtoken";
+import { validateUserRegistration } from "../utils/validateUserRegistration";
+import { UserResponse } from "./UserResponse";
 
-@ObjectType()
-class LoginResponse {
-  @Field()
-  accessToken: string;
-  @Field(() => User)
-  user: User;
-}
 
-@Resolver()
+
+// @ObjectType()
+// class FieldError {
+//   @Field()
+//   field: string
+//   @Field()
+//   message: string
+// }
+
+// @ObjectType()
+// class UserResponse {
+//   @Field(() => [FieldError], { nullable: true })
+//   errors?: FieldError[];
+
+//   @Field({ nullable: true })
+//   accessToken: string;
+
+//   @Field(() => User, { nullable: true })
+//   user: User;
+// }
+
+@Resolver(User)
 export class UserResolver {
   @Query(() => String)
   hello() {
@@ -79,22 +93,40 @@ export class UserResolver {
     return true;
   }
 
-  @Mutation(() => LoginResponse)
+  @Mutation(() => UserResponse)
   async login(
     @Arg("email") email: string,
     @Arg("password") password: string,
     @Ctx() { res }: MyContext
-  ): Promise<LoginResponse> {
+  ) {
     const user = await User.findOne({ where: { email } });
 
     if (!user) {
-      throw new Error("could not find user");
+      return {
+        errors: [
+          {
+            field: "usernameOrEmail",
+            message: "that username doesn't exist",
+          },
+        ],
+        // accessToken: "",
+        // user: {
+        //   null
+        // }
+      };
     }
 
     const valid = await compare(password, user.password);
 
     if (!valid) {
-      throw new Error("bad password");
+      return {
+        errors: [
+          {
+            field: "password",
+            message: "incorrect password",
+          },
+        ],
+      };
     }
 
     // login successful
@@ -107,23 +139,37 @@ export class UserResolver {
     };
   }
 
-  @Mutation(() => Boolean)
+  @Mutation(() => UserResponse)
   async register(
     @Arg("email") email: string,
     @Arg("password") password: string
   ) {
-    const hashedPassword = await hash(password, 12);
-
-    try {
-      await User.insert({
-        email,
-        password: hashedPassword
-      });
-    } catch (err) {
-      console.log(err);
-      return false;
+    const errors = validateUserRegistration(email, password);
+    if (errors) {
+      return { errors };
     }
 
-    return true;
+    const hashedPassword = await hash(password, 12);
+    let user;
+    try {
+      user = await User.create({
+        email,
+        password: hashedPassword
+      }).save()
+    } catch (err) {
+      console.log(err)
+      if (err.code === "ER_DUP_ENTRY") {
+        return {
+          errors: [
+            {
+              field: "username",
+              message: "username already taken",
+            },
+          ],
+        };
+    }
   }
+  return {user};
+
+}
 }

@@ -54,15 +54,15 @@ export function withApollo(PageComponent: any, { ssr = true } = {}) {
     WithApollo.getInitialProps = async (ctx: any) => {
       const {
         AppTree,
-        ctx: { req, res }
+        ctx: { req, res },
       } = ctx;
 
       let serverAccessToken = "";
 
       if (isServer()) {
-        let cookie1 = req.headers.cookie
+        let cookie1 = req.headers.cookie;
         if (cookie1 == undefined) {
-          cookie1 = ""
+          cookie1 = "";
         }
         const cookies = cookie.parse(cookie1);
         if (cookies.jid) {
@@ -70,8 +70,8 @@ export function withApollo(PageComponent: any, { ssr = true } = {}) {
             method: "POST",
             credentials: "include",
             headers: {
-              cookie: "jid=" + cookies.jid
-            }
+              cookie: "jid=" + cookies.jid,
+            },
           });
           const data = await response.json();
           serverAccessToken = data.accessToken;
@@ -105,7 +105,7 @@ export function withApollo(PageComponent: any, { ssr = true } = {}) {
               <AppTree
                 pageProps={{
                   ...pageProps,
-                  apolloClient
+                  apolloClient,
                 }}
                 apolloClient={apolloClient}
               />
@@ -129,7 +129,7 @@ export function withApollo(PageComponent: any, { ssr = true } = {}) {
       return {
         ...pageProps,
         apolloState,
-        serverAccessToken
+        serverAccessToken,
       };
     };
   }
@@ -168,7 +168,7 @@ function createApolloClient(initialState = {}, serverAccessToken?: string) {
   const httpLink = new HttpLink({
     uri: "http://localhost:4000/graphql",
     credentials: "include",
-    fetch
+    fetch,
   });
 
   const refreshLink = new TokenRefreshLink({
@@ -194,16 +194,16 @@ function createApolloClient(initialState = {}, serverAccessToken?: string) {
     fetchAccessToken: () => {
       return fetch("http://localhost:4000/refresh_token", {
         method: "POST",
-        credentials: "include"
+        credentials: "include",
       });
     },
-    handleFetch: accessToken => {
+    handleFetch: (accessToken) => {
       setAccessToken(accessToken);
     },
-    handleError: err => {
+    handleError: (err) => {
       console.warn("Your refresh token is invalid. Try to relogin");
       console.error(err);
-    }
+    },
   });
 
   const authLink = setContext((_request, { headers }) => {
@@ -211,8 +211,8 @@ function createApolloClient(initialState = {}, serverAccessToken?: string) {
     return {
       headers: {
         ...headers,
-        authorization: token ? `bearer ${token}` : ""
-      }
+        authorization: token ? `bearer ${token}` : "",
+      },
     };
   });
 
@@ -224,6 +224,6 @@ function createApolloClient(initialState = {}, serverAccessToken?: string) {
   return new ApolloClient({
     ssrMode: typeof window === "undefined", // Disables forceFetch on the server (so queries are only run once)
     link: ApolloLink.from([refreshLink, authLink, errorLink, httpLink]),
-    cache: new InMemoryCache().restore(initialState)
+    cache: new InMemoryCache().restore(initialState),
   });
 }
