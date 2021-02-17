@@ -1,6 +1,6 @@
 import { Box, Heading, Image, Text } from "@chakra-ui/react";
 import React from "react";
-import { GetPageQuery } from "../generated/graphql";
+import { useGetPageQuery } from "../generated/graphql";
 interface framepageInformationProps {
     title: string;
     emoji: string;
@@ -9,6 +9,11 @@ interface framepageInformationProps {
 export const FramePageInformation: React.FC<framepageInformationProps> = ({
     title,
 }) => {
+    const {data} = useGetPageQuery({
+        variables: {
+            pageId: 
+        }
+    })
     return (
         <Box
             width="100%"
