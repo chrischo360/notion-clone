@@ -9,11 +9,12 @@ interface framepageInformationProps {
 export const FramePageInformation: React.FC<framepageInformationProps> = ({
     title,
 }) => {
-    const {data} = useGetPageQuery({
+    const pageId = 1;
+    const { data } = useGetPageQuery({
         variables: {
-            pageId: 
-        }
-    })
+            pageId: pageId,
+        },
+    });
     return (
         <Box
             width="100%"

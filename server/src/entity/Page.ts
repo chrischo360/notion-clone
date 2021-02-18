@@ -30,6 +30,10 @@ export class Page extends BaseEntity {
   @Column()
   emoji: string;
 
+  @Field()
+  @Column()
+  pageUrl: string;
+
   @Field(() => User)
   @ManyToOne(() => User
   // , user => user.page
