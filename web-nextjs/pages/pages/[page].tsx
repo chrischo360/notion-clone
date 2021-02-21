@@ -9,6 +9,7 @@ import { Frame } from "../../components/Frame";
 import { FrameHeader } from "../../components/Frameheader";
 import { FrameScroller } from "../../components/Framescroller";
 import { FramePageInformation } from "../../components/FramePageInformation";
+import Head from "next/head";
 
 interface PageProps {}
 
@@ -19,7 +20,11 @@ const Page: React.FC<PageProps> = ({}) => {
     const email = data?.me?.email;
     const userId = data?.me.id;
 
-    console.log(typeof userId);
+    // if (userId == null) {
+    //     router.push("/login");
+    // }
+
+    console.log("typeofUserid:", typeof userId);
     if (loading) {
         return <Box>Loading...</Box>;
     }
@@ -37,7 +42,7 @@ const Page: React.FC<PageProps> = ({}) => {
                     </Box> */}
                     <Frame>
                         <FrameHeader />
-                        <FramePageInformation title={page} />
+                        <FramePageInformation pageUrl={page} />
                         <FrameScroller />
                     </Frame>
                     {/* <CreatePageForm /> */}

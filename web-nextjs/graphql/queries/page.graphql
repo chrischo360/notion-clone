@@ -1,7 +1,8 @@
-query getPage($pageId: Float!) {
-  page(pageId: $pageId) {
-    cover
-    title
-    emoji
-  }
+query getPage($pageUrl: String!) {
+    page(pageUrl: $pageUrl) {
+        cover
+        title
+        emoji
+        pageUrl
+    }
 }

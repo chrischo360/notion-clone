@@ -1,18 +1,34 @@
-import { Box, Heading, Image, Text } from "@chakra-ui/react";
-import React from "react";
+import { Box, Heading } from "@chakra-ui/react";
+import React, { useEffect } from "react";
 import { useGetPageQuery } from "../generated/graphql";
+// import ExampleEmojiButton from "./ExampleEmojiButton";
+
 interface framepageInformationProps {
-    title: string;
+    pageUrl: string;
     emoji: string;
 }
 
 export const FramePageInformation: React.FC<framepageInformationProps> = ({
-    title,
+    pageUrl,
+    emoji,
 }) => {
-    const pageId = 1;
+    // const trigger = document.querySelector("#emoji-trigger");
+
+    // picker.on("emoji", (selection) => {
+    //     // handle the selected emoji here
+    //     console.log(selection.emoji);
+    // });
+
+    // trigger.addEventListener("click", () => picker.togglePicker(trigger));
+
+    interface framepageInformationProps {
+        pageUrl: string;
+        emoji: string;
+    }
+    // const pageId = 1;
     const { data } = useGetPageQuery({
         variables: {
-            pageId: pageId,
+            pageUrl: pageUrl,
         },
     });
     return (
@@ -23,13 +39,18 @@ export const FramePageInformation: React.FC<framepageInformationProps> = ({
             alignItems="center"
         >
             <Box width="100%" marginTop="100px">
-                <Image
-                    marginLeft="100px"
-                    boxSize="80px"
-                    src="https://notion-emojis.s3-us-west-2.amazonaws.com/v0/svg-twitter/1f914.svg"
-                />
+                {/* <button id="emoji-trigger">
+                    <Image
+                        marginLeft="100px"
+                        boxSize="80px"
+                        src={data?.page.emoji}
+                    />
+                    {picker.showPicker}
+                </button> */}
+                {/* <ExampleEmojiButton /> */}
+
                 <Heading marginLeft="100px" marginTop="50px">
-                    {title}
+                    {data?.page.title}
                 </Heading>
             </Box>
         </Box>

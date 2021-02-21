@@ -9,7 +9,7 @@ interface sidebarpagelistProps {
 
 export const SidebarPageList: React.FC<sidebarpagelistProps> = ({ userId }) => {
     // const { data, loading } = useGetMeQuery({ fetchPolicy: "network-only" });
-    console.log(typeof userId);
+    console.log("SidebarPageList", userId);
     const { data, loading, error } = useGetPagesQuery({
         variables: {
             userId: userId,
@@ -25,11 +25,11 @@ export const SidebarPageList: React.FC<sidebarpagelistProps> = ({ userId }) => {
         console.log(error);
         return <Box>Error</Box>;
     }
-
+    console.log(pages);
     const listPages = pages?.map((page) => (
         <Button width="100%" variant="ghost" key={page.id}>
             {/* <TriangleDownIcon /> */}
-            <Link href={`/pages/${page.title}`}>
+            <Link href={`/pages/${page.pageUrl}`}>
                 <Text width="100%" textAlign="left">
                     {page.title}
                 </Text>

@@ -1188,6 +1188,32 @@
     ts-node "^9"
     tslib "^2"
 
+"@fortawesome/fontawesome-common-types@^0.2.34":
+  version "0.2.34"
+  resolved "https://registry.yarnpkg.com/@fortawesome/fontawesome-common-types/-/fontawesome-common-types-0.2.34.tgz#0a8c348bb23b7b760030f5b1d912e582be4ec915"
+  integrity sha512-XcIn3iYbTEzGIxD0/dY5+4f019jIcEIWBiHc3KrmK/ROahwxmZ/s+tdj97p/5K0klz4zZUiMfUlYP0ajhSJjmA==
+
+"@fortawesome/fontawesome-svg-core@^1.2.22", "@fortawesome/fontawesome-svg-core@^1.2.28":
+  version "1.2.34"
+  resolved "https://registry.yarnpkg.com/@fortawesome/fontawesome-svg-core/-/fontawesome-svg-core-1.2.34.tgz#1d1a7c92537cbc2b8a83eef6b6d824b4b5b46b26"
+  integrity sha512-0KNN0nc5eIzaJxlv43QcDmTkDY1CqeN6J7OCGSs+fwGPdtv0yOQqRjieopBCmw+yd7uD3N2HeNL3Zm5isDleLg==
+  dependencies:
+    "@fortawesome/fontawesome-common-types" "^0.2.34"
+
+"@fortawesome/free-regular-svg-icons@^5.10.2", "@fortawesome/free-regular-svg-icons@^5.13.0":
+  version "5.15.2"
+  resolved "https://registry.yarnpkg.com/@fortawesome/free-regular-svg-icons/-/free-regular-svg-icons-5.15.2.tgz#61eeb8c206e792c530eaa58279cc32c55332fe8f"
+  integrity sha512-Uv5NQCYjyisNVTu/1Xjs+z8vwQjbfT6hiqYvQNfF0n8qdgfWLM581bAfVMQ3BCs1SPy+eEUKNcGkK4n0FihFHg==
+  dependencies:
+    "@fortawesome/fontawesome-common-types" "^0.2.34"
+
+"@fortawesome/free-solid-svg-icons@^5.10.2", "@fortawesome/free-solid-svg-icons@^5.13.0":
+  version "5.15.2"
+  resolved "https://registry.yarnpkg.com/@fortawesome/free-solid-svg-icons/-/free-solid-svg-icons-5.15.2.tgz#25bb035de57cf85aee8072965732368ccc8e8943"
+  integrity sha512-ZfCU+QjaFsdNZmOGmfqEWhzI3JOe37x5dF4kz9GeXvKn/sTxhqMtZ7mh3lBf76SvcYY5/GKFuyG7p1r4iWMQqw==
+  dependencies:
+    "@fortawesome/fontawesome-common-types" "^0.2.34"
+
 "@graphql-codegen/cli@^1.20.1":
   version "1.20.1"
   resolved "https://registry.yarnpkg.com/@graphql-codegen/cli/-/cli-1.20.1.tgz#3b42eddb4ddbfc6ad37d0a838267165f77342e14"
@@ -1667,6 +1693,22 @@
   resolved "https://registry.yarnpkg.com/@iarna/toml/-/toml-2.2.5.tgz#b32366c89b43c6f8cefbdefac778b9c828e3ba8c"
   integrity sha512-trnsAYxU3xnS1gPHPyU961coFyLkh4gAD/0zQ5mymY4yOZ+CYvsPqUbOFSw0aDM4y0tV7tiFxL/1XfXPNC6IPg==
 
+"@joeattardi/emoji-button@^4.6.0":
+  version "4.6.0"
+  resolved "https://registry.yarnpkg.com/@joeattardi/emoji-button/-/emoji-button-4.6.0.tgz#93a78abb19c61ce9dcc464d15f373743b15cd2a2"
+  integrity sha512-KwOE1j+YxX47JmT0pXNCa+9Ai4Wf2fmABtvuxy6JBJ5QV0HdoThRKjL6CxAreVwwLbNQ/PDoR36xpc5QJjLXPA==
+  dependencies:
+    "@fortawesome/fontawesome-svg-core" "^1.2.28"
+    "@fortawesome/free-regular-svg-icons" "^5.13.0"
+    "@fortawesome/free-solid-svg-icons" "^5.13.0"
+    "@popperjs/core" "^2.4.0"
+    "@types/twemoji" "^12.1.1"
+    focus-trap "^5.1.0"
+    fuzzysort "^1.1.4"
+    tiny-emitter "^2.1.0"
+    tslib "^2.0.0"
+    twemoji "^13.0.0"
+
 "@kamilkisiela/graphql-tools@4.0.6":
   version "4.0.6"
   resolved "https://registry.yarnpkg.com/@kamilkisiela/graphql-tools/-/graphql-tools-4.0.6.tgz#6dcf4d18bedaf34f6ab1d5bad2414e530d0875d1"
@@ -1748,6 +1790,11 @@
   resolved "https://registry.yarnpkg.com/@popperjs/core/-/core-2.4.4.tgz#11d5db19bd178936ec89cd84519c4de439574398"
   integrity sha512-1oO6+dN5kdIA3sKPZhRGJTfGVP4SWV6KqlMOwry4J3HfyD68sl/3KmG7DeYUzvN+RbhXDnv/D8vNNB8168tAMg==
 
+"@popperjs/core@^2.4.0":
+  version "2.7.0"
+  resolved "https://registry.yarnpkg.com/@popperjs/core/-/core-2.7.0.tgz#5f7760965170f7f1e2910d2498c5be88b47a2a8c"
+  integrity sha512-V3WyEc8ZyAuOQ2fpFuTuYYOd2tV4NePeSdxaHYgYAOs7ERLxlcFi2XsmgI5LJFdAUmJKXsg8jaIiVTkTHQygQw==
+
 "@reach/alert@0.13.0":
   version "0.13.0"
   resolved "https://registry.yarnpkg.com/@reach/alert/-/alert-0.13.0.tgz#1f67b389f49af61286ef03a84f5a57bd3503dadf"
@@ -1797,6 +1844,21 @@
   version "1.1.2"
   resolved "https://registry.yarnpkg.com/@tootallnate/once/-/once-1.1.2.tgz#ccb91445360179a04e7fe6aff78c00ffc1eeaf82"
   integrity sha512-RbzJvlNzmRq5c3O09UipeuXno4tA1FE6ikOjxZK0tuxVv3412l64l5t1W5pj4+rJq9vpkm/kwiR07aZXnsKPxw==
+
+"@types/@joeattardi/emoji-button":
+  version "4.6.0"
+  resolved "https://codeload.github.com/joeattardi/emoji-button/tar.gz/d859569bb3d9d9180c2479699396e0ec5bc7b899"
+  dependencies:
+    "@fortawesome/fontawesome-svg-core" "^1.2.28"
+    "@fortawesome/free-regular-svg-icons" "^5.13.0"
+    "@fortawesome/free-solid-svg-icons" "^5.13.0"
+    "@popperjs/core" "^2.4.0"
+    "@types/twemoji" "^12.1.1"
+    focus-trap "^5.1.0"
+    fuzzysort "^1.1.4"
+    tiny-emitter "^2.1.0"
+    tslib "^2.0.0"
+    twemoji "^13.0.0"
 
 "@types/cookie@^0.4.0":
   version "0.4.0"
@@ -1913,6 +1975,11 @@
   version "1.4.2"
   resolved "https://registry.yarnpkg.com/@types/tinycolor2/-/tinycolor2-1.4.2.tgz#721ca5c5d1a2988b4a886e35c2ffc5735b6afbdf"
   integrity sha512-PeHg/AtdW6aaIO2a+98Xj7rWY4KC1E6yOy7AFknJQ7VXUGNrMlyxDFxJo7HqLtjQms/ZhhQX52mLVW/EX3JGOw==
+
+"@types/twemoji@^12.1.1":
+  version "12.1.1"
+  resolved "https://registry.yarnpkg.com/@types/twemoji/-/twemoji-12.1.1.tgz#34c5dcecff438b5be173889a6ee8ad51ba90445f"
+  integrity sha512-dW1B1WHTfrWmEzXb/tp8xsZqQHAyMB9JwLwbBqkIQVzmNUI02R7lJqxUpKFM114ygNZHKA1r74oPugCAiYHt1A==
 
 "@types/ungap__global-this@^0.3.1":
   version "0.3.1"
@@ -3289,6 +3356,28 @@ elliptic@^6.5.3:
     minimalistic-assert "^1.0.1"
     minimalistic-crypto-utils "^1.0.1"
 
+emoji-button@^2.2.2:
+  version "2.2.2"
+  resolved "https://registry.yarnpkg.com/emoji-button/-/emoji-button-2.2.2.tgz#faa71377d2fa33606d390169d0bce71a308bed35"
+  integrity sha512-sKXRRnOTxZBGj85SwPCeby4TGhiNspu27dfD+BMsZ8few8iQ8bPyPT2uId2nhJyn6aN6f1fo4C4/jO8rrMyaGw==
+  dependencies:
+    "@fortawesome/fontawesome-svg-core" "^1.2.22"
+    "@fortawesome/free-regular-svg-icons" "^5.10.2"
+    "@fortawesome/free-solid-svg-icons" "^5.10.2"
+    emoji-datasource "^4.1.0"
+    popper.js "^1.15.0"
+    tiny-emitter "^2.1.0"
+
+emoji-datasource@^4.1.0:
+  version "4.1.0"
+  resolved "https://registry.yarnpkg.com/emoji-datasource/-/emoji-datasource-4.1.0.tgz#b44557f78a2dfac2f350393391b170a567ec28ad"
+  integrity sha1-tEVX94ot+sLzUDkzkbFwpWfsKK0=
+
+emoji-picker-element@^1.4.0:
+  version "1.4.0"
+  resolved "https://registry.yarnpkg.com/emoji-picker-element/-/emoji-picker-element-1.4.0.tgz#d69561e8d17bbeb1f0ac464f4bef70780a5bf248"
+  integrity sha512-ZwjedtXzaQ+1JF76zIhlpb4JpEl5xoSVP5WHbW9SviO7QulyMQORC4CNntAY9KNT5jmkeY7ciV7H6jCFaAdQzQ==
+
 emoji-regex@^8.0.0:
   version "8.0.0"
   resolved "https://registry.yarnpkg.com/emoji-regex/-/emoji-regex-8.0.0.tgz#e818fd69ce5ccfcb404594f842963bf53164cc37"
@@ -3536,6 +3625,14 @@ focus-lock@^0.7.0:
   resolved "https://registry.yarnpkg.com/focus-lock/-/focus-lock-0.7.0.tgz#b2bfb0ca7beacc8710a1ff74275fe0dc60a1d88a"
   integrity sha512-LI7v2mH02R55SekHYdv9pRHR9RajVNyIJ2N5IEkWbg7FT5ZmJ9Hw4mWxHeEUcd+dJo0QmzztHvDvWcc7prVFsw==
 
+focus-trap@^5.1.0:
+  version "5.1.0"
+  resolved "https://registry.yarnpkg.com/focus-trap/-/focus-trap-5.1.0.tgz#64a0bfabd95c382103397dbc96bfef3a3cf8e5ad"
+  integrity sha512-CkB/nrO55069QAUjWFBpX6oc+9V90Qhgpe6fBWApzruMq5gnlh90Oo7iSSDK7pKiV5ugG6OY2AXM5mxcmL3lwQ==
+  dependencies:
+    tabbable "^4.0.0"
+    xtend "^4.0.1"
+
 form-data@^2.3.2:
   version "2.5.1"
   resolved "https://registry.yarnpkg.com/form-data/-/form-data-2.5.1.tgz#f2cbec57b5e59e23716e128fe44d4e5dd23895f4"
@@ -3595,6 +3692,15 @@ fs-constants@^1.0.0:
   resolved "https://registry.yarnpkg.com/fs-constants/-/fs-constants-1.0.0.tgz#6be0de9be998ce16af8afc24497b9ee9b7ccd9ad"
   integrity sha512-y6OAwoSIf7FyjMIv94u+b5rdheZEjzR63GTyZJm5qh4Bi+2YgwLCcI/fPFZkL5PSixOt6ZNKm+w+Hfp/Bciwow==
 
+fs-extra@^8.0.1:
+  version "8.1.0"
+  resolved "https://registry.yarnpkg.com/fs-extra/-/fs-extra-8.1.0.tgz#49d43c45a88cd9677668cb7be1b46efdb8d2e1c0"
+  integrity sha512-yhlQgA6mnOJUKOsRUFsgJdQCvkKhcz8tlZG5HBQfReYZy46OwLcY+Zia0mtdHsOo9y/hP+CxMN0TU9QxoOtG4g==
+  dependencies:
+    graceful-fs "^4.2.0"
+    jsonfile "^4.0.0"
+    universalify "^0.1.0"
+
 fs.realpath@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/fs.realpath/-/fs.realpath-1.0.0.tgz#1504ad2523158caa40db4a2787cb01411994ea4f"
@@ -3609,6 +3715,11 @@ function-bind@^1.1.1:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/function-bind/-/function-bind-1.1.1.tgz#a56899d3ea3c9bab874bb9773b7c5ede92f4895d"
   integrity sha512-yIovAzMX49sF8Yl58fSCWJ5svSLuaibPxXQJFLmBObTuCr0Mf1KiPopGM9NiFjiYBCbfaa2Fh6breQ6ANVTI0A==
+
+fuzzysort@^1.1.4:
+  version "1.1.4"
+  resolved "https://registry.yarnpkg.com/fuzzysort/-/fuzzysort-1.1.4.tgz#a0510206ed44532cbb52cf797bf5a3cb12acd4ba"
+  integrity sha512-JzK/lHjVZ6joAg3OnCjylwYXYVjRiwTY6Yb25LvfpJHK8bjisfnZJ5bY8aVWwTwCXgxPNgLAtmHL+Hs5q1ddLQ==
 
 gauge@~2.7.3:
   version "2.7.4"
@@ -3743,6 +3854,11 @@ graceful-fs@^4.1.2:
   version "4.2.5"
   resolved "https://registry.yarnpkg.com/graceful-fs/-/graceful-fs-4.2.5.tgz#bc18864a6c9fc7b303f2e2abdb9155ad178fbe29"
   integrity sha512-kBBSQbz2K0Nyn+31j/w36fUfxkBW9/gfwRWdUY1ULReH3iokVJgddZAFcD1D0xlgTmFxJCbUkUclAlc6/IDJkw==
+
+graceful-fs@^4.1.6, graceful-fs@^4.2.0:
+  version "4.2.6"
+  resolved "https://registry.yarnpkg.com/graceful-fs/-/graceful-fs-4.2.6.tgz#ff040b2b0853b23c3d31027523706f1885d76bee"
+  integrity sha512-nTnJ528pbqxYanhpDYsi4Rd8MAeaBA67+RZ10CM1m3bTAVFEDcd5AuA4a6W5YkGZ1iNXHzZz8T6TBKLeBuNriQ==
 
 graphql-config@^3.2.0:
   version "3.2.0"
@@ -4327,6 +4443,22 @@ json5@^2.1.2:
   integrity sha512-f+8cldu7X/y7RAJurMEJmdoKXGB/X550w2Nr3tTbezL6RwEE/iMcm+tZnXeoZtKuOq6ft8+CqzEkrIgx1fPoQA==
   dependencies:
     minimist "^1.2.5"
+
+jsonfile@^4.0.0:
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/jsonfile/-/jsonfile-4.0.0.tgz#8771aae0799b64076b76640fca058f9c10e33ecb"
+  integrity sha1-h3Gq4HmbZAdrdmQPygWPnBDjPss=
+  optionalDependencies:
+    graceful-fs "^4.1.6"
+
+jsonfile@^5.0.0:
+  version "5.0.0"
+  resolved "https://registry.yarnpkg.com/jsonfile/-/jsonfile-5.0.0.tgz#e6b718f73da420d612823996fdf14a03f6ff6922"
+  integrity sha512-NQRZ5CRo74MhMMC3/3r5g2k4fjodJ/wh8MxjFbCViWKFjxrnudWSY5vomh+23ZaXzAS7J3fBZIR2dV6WbmfM0w==
+  dependencies:
+    universalify "^0.1.2"
+  optionalDependencies:
+    graceful-fs "^4.1.6"
 
 jsonify@~0.0.0:
   version "0.0.0"
@@ -5198,6 +5330,11 @@ popmotion@^9.1.0:
     hey-listen "^1.0.8"
     style-value-types "^4.0.1"
     tslib "^1.10.0"
+
+popper.js@^1.15.0:
+  version "1.16.1"
+  resolved "https://registry.yarnpkg.com/popper.js/-/popper.js-1.16.1.tgz#2a223cb3dc7b6213d740e40372be40de43e65b1b"
+  integrity sha512-Wb4p1J4zyFTbM+u6WuO4XstYx4Ky9Cewe4DWrel7B0w6VVICvPwdOpotjzcf6eD8TsckVnIMNONQyPIUFOUbCQ==
 
 postcss-safe-parser@4.0.2:
   version "4.0.2"
@@ -6086,6 +6223,11 @@ sync-fetch@0.3.0:
     buffer "^5.7.0"
     node-fetch "^2.6.1"
 
+tabbable@^4.0.0:
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/tabbable/-/tabbable-4.0.0.tgz#5bff1d1135df1482cf0f0206434f15eadbeb9261"
+  integrity sha512-H1XoH1URcBOa/rZZWxLxHCtOdVUEev+9vo5YdYhC9tCY4wnybX+VQrCYuy9ubkg69fCBxCONJOSLGfw0DWMffQ==
+
 tar-fs@^2.0.0, tar-fs@^2.1.1:
   version "2.1.1"
   resolved "https://registry.yarnpkg.com/tar-fs/-/tar-fs-2.1.1.tgz#489a15ab85f1f0befabb370b7de4f9eb5cbe8784"
@@ -6127,6 +6269,11 @@ timers-browserify@^2.0.4:
   integrity sha512-9phl76Cqm6FhSX9Xe1ZUAMLtm1BLkKj2Qd5ApyWkXzsMRaA7dgr81kf4wJmQf/hAvg8EEyJxDo3du/0KlhPiKQ==
   dependencies:
     setimmediate "^1.0.4"
+
+tiny-emitter@^2.1.0:
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/tiny-emitter/-/tiny-emitter-2.1.0.tgz#1d1a56edfc51c43e863cbb5382a72330e3555423"
+  integrity sha512-NB6Dk1A9xgQPMoGqC5CVXn123gWyte215ONT5Pp5a0yt4nlEoO1ZWeCwpncaekPHXO60i47ihFnZPiRPjRMq4Q==
 
 tiny-invariant@^1.0.6:
   version "1.1.0"
@@ -6264,6 +6411,21 @@ tunnel-agent@^0.6.0:
   dependencies:
     safe-buffer "^5.0.1"
 
+twemoji-parser@13.0.0:
+  version "13.0.0"
+  resolved "https://registry.yarnpkg.com/twemoji-parser/-/twemoji-parser-13.0.0.tgz#bd9d1b98474f1651dc174696b45cabefdfa405af"
+  integrity sha512-zMaGdskpH8yKjT2RSE/HwE340R4Fm+fbie4AaqjDa4H/l07YUmAvxkSfNl6awVWNRRQ0zdzLQ8SAJZuY5MgstQ==
+
+twemoji@^13.0.0:
+  version "13.0.1"
+  resolved "https://registry.yarnpkg.com/twemoji/-/twemoji-13.0.1.tgz#57ddc8bd86c8175c11376f5f9ab322a02e739c2d"
+  integrity sha512-mrTBq+XpCLM4zm76NJOjLHoQNV9mHdBt3Cba/T5lS1rxn8ArwpqE47mqTocupNlkvcLxoeZJjYSUW0DU5ZwqZg==
+  dependencies:
+    fs-extra "^8.0.1"
+    jsonfile "^5.0.0"
+    twemoji-parser "13.0.0"
+    universalify "^0.1.2"
+
 type-fest@^0.11.0:
   version "0.11.0"
   resolved "https://registry.yarnpkg.com/type-fest/-/type-fest-0.11.0.tgz#97abf0872310fed88a5c466b25681576145e33f1"
@@ -6293,6 +6455,11 @@ unfetch@^4.2.0:
   version "4.2.0"
   resolved "https://registry.yarnpkg.com/unfetch/-/unfetch-4.2.0.tgz#7e21b0ef7d363d8d9af0fb929a5555f6ef97a3be"
   integrity sha512-F9p7yYCn6cIW9El1zi0HI6vqpeIvBsr3dSuRO6Xuppb1u5rXpCPmMvLSyECLhybr9isec8Ohl0hPekMVrEinDA==
+
+universalify@^0.1.0, universalify@^0.1.2:
+  version "0.1.2"
+  resolved "https://registry.yarnpkg.com/universalify/-/universalify-0.1.2.tgz#b646f69be3942dabcecc9d6639c80dc105efaa66"
+  integrity sha512-rBJeI5CXAlmy1pV+617WB9J63U6XcazHHF2f2dbJix4XzpUF0RS3Zbj0FGIOCAva5P/d/GBOYaACQ1w+0azUkg==
 
 unixify@1.0.0:
   version "1.0.0"
@@ -6393,6 +6560,11 @@ uuid@^3.1.0:
   version "3.4.0"
   resolved "https://registry.yarnpkg.com/uuid/-/uuid-3.4.0.tgz#b23e4358afa8a202fe7a100af1f5f883f02007ee"
   integrity sha512-HjSDRw6gZE5JMggctHBcjVak08+KEVhSIiDzFnT9S9aegmp85S/bReBVTb4QTFaRNptJ9kuYaNhnbNEOkbKb/A==
+
+uuid@^8.3.2:
+  version "8.3.2"
+  resolved "https://registry.yarnpkg.com/uuid/-/uuid-8.3.2.tgz#80d5b5ced271bb9af6c445f21a1a04c606cefbe2"
+  integrity sha512-+NYs2QeMWy+GWFOEm9xnn6HCDp0l7QBD7ml8zLUmJ+93Q5NF0NocErnwkTkXVFNiX3/fpC6afS8Dhb/gz7R7eg==
 
 valid-url@1.0.9, valid-url@^1.0.9:
   version "1.0.9"
@@ -6504,7 +6676,7 @@ ws@7.4.2:
   resolved "https://registry.yarnpkg.com/ws/-/ws-7.4.2.tgz#782100048e54eb36fe9843363ab1c68672b261dd"
   integrity sha512-T4tewALS3+qsrpGI/8dqNMLIVdq/g/85U98HPMa6F0m6xTbvhXU6RCQLqPH3+SlomNV/LdY6RXEbBpMH6EOJnA==
 
-xtend@^4.0.0:
+xtend@^4.0.0, xtend@^4.0.1:
   version "4.0.2"
   resolved "https://registry.yarnpkg.com/xtend/-/xtend-4.0.2.tgz#bb72779f5fa465186b1f438f674fa347fdb5db54"
   integrity sha512-LKYU1iAXJXUgAXn9URjiu+MWhyUXHsvfp7mcuYm9dSUKK0/CjtrUwFAxD82/mCWbtLsGjFIad0wIsod4zrTAEQ==

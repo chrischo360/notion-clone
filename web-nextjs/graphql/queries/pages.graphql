@@ -6,5 +6,6 @@ query getPages($userId: Float!) {
         cover
         title
         emoji
+        pageUrl
     }
 }

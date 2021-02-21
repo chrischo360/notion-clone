@@ -34,7 +34,7 @@ export type QueryBlockArgs = {
 
 
 export type QueryPageArgs = {
-  pageId: Scalars['Float'];
+  pageUrl: Scalars['String'];
 };
 
 
@@ -66,6 +66,7 @@ export type Page = {
   cover: Scalars['String'];
   title: Scalars['String'];
   emoji: Scalars['String'];
+  pageUrl: Scalars['String'];
   user: User;
 };
 
@@ -280,7 +281,7 @@ export type GetMeQuery = (
 );
 
 export type GetPageQueryVariables = Exact<{
-  pageId: Scalars['Float'];
+  pageUrl: Scalars['String'];
 }>;
 
 
@@ -288,7 +289,7 @@ export type GetPageQuery = (
   { __typename?: 'Query' }
   & { page: (
     { __typename?: 'Page' }
-    & Pick<Page, 'cover' | 'title' | 'emoji'>
+    & Pick<Page, 'cover' | 'title' | 'emoji' | 'pageUrl'>
   ) }
 );
 
@@ -301,7 +302,7 @@ export type GetPagesQuery = (
   { __typename?: 'Query' }
   & { pages: Array<(
     { __typename?: 'Page' }
-    & Pick<Page, 'id' | 'createdAt' | 'updatedAt' | 'cover' | 'title' | 'emoji'>
+    & Pick<Page, 'id' | 'createdAt' | 'updatedAt' | 'cover' | 'title' | 'emoji' | 'pageUrl'>
   )> }
 );
 
@@ -661,11 +662,12 @@ export type GetMeQueryHookResult = ReturnType<typeof useGetMeQuery>;
 export type GetMeLazyQueryHookResult = ReturnType<typeof useGetMeLazyQuery>;
 export type GetMeQueryResult = Apollo.QueryResult<GetMeQuery, GetMeQueryVariables>;
 export const GetPageDocument = gql`
-    query getPage($pageId: Float!) {
-  page(pageId: $pageId) {
+    query getPage($pageUrl: String!) {
+  page(pageUrl: $pageUrl) {
     cover
     title
     emoji
+    pageUrl
   }
 }
     `;
@@ -682,7 +684,7 @@ export const GetPageDocument = gql`
  * @example
  * const { data, loading, error } = useGetPageQuery({
  *   variables: {
- *      pageId: // value for 'pageId'
+ *      pageUrl: // value for 'pageUrl'
  *   },
  * });
  */
@@ -704,6 +706,7 @@ export const GetPagesDocument = gql`
     cover
     title
     emoji
+    pageUrl
   }
 }
     `;
