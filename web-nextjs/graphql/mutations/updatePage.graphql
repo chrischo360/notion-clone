@@ -1,12 +1,11 @@
 mutation updatePage(
-    $title: String!
-    $cover: String!
-    $emoji: String!
+    $title: String
+    $cover: String
+    $emoji: String
     $pageId: Float!
-    $userId: Float!
 ) {
     updatePage(
-        input: { title: $title, emoji: $emoji, cover: $cover, userId: $userId }
+        input: { title: $title, emoji: $emoji, cover: $cover }
         pageId: $pageId
     )
 }

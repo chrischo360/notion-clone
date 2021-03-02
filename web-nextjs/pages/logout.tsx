@@ -3,10 +3,10 @@ import React from "react";
 import Layout from "../components/Layout";
 import { useLogoutMutation } from "../generated/graphql";
 
-const Logout = () => {
+const Logout = async () => {
     // const [logout] = useLogoutMutation();
     const router = useRouter();
-
+    // await logout();
     // const response = logout();
     // if (response) {
     router.push("/");

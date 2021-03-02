@@ -1,5 +1,6 @@
 query getPage($pageUrl: String!) {
     page(pageUrl: $pageUrl) {
+        id
         cover
         title
         emoji

@@ -1,15 +1,15 @@
 import { Box } from "@chakra-ui/react";
 import React, { useEffect, useMemo, useState } from "react";
 import { useCallback } from "react";
-import { createEditor, Transforms, Editor } from "slate";
+import { createEditor, Transforms, Editor, Node } from "slate";
 import { Slate, Editable, withReact } from "slate-react";
+import { withMyPlugin } from "./withMyPlugin";
 
 export const EditorComponent = () => {
-    const editor = useMemo(() => withReact(createEditor()), []);
-    const [value, setValue] = useState([
+    const editor = useMemo(() => withReact(withMyPlugin(createEditor())), []);
+    const [value, setValue] = useState<Node[]>([
         {
-            type: "paragraph",
-            children: [{ text: "A line of text in a paragraph." }],
+            children: [{ text: "Testing" }],
         },
     ]);
 
@@ -31,19 +31,11 @@ export const EditorComponent = () => {
             >
                 <Editable
                     renderElement={renderElement}
-                    onKeyDown={(event) => {
-                        if (event.key === "`" && event.ctrlKey) {
-                            event.preventDefault();
-                            // Determine whether any of the currently selected blocks are code blocks.
-                            const [match] = Editor.nodes(editor, {
-                                match: (n) => n.type === "code",
-                            });
-                            // Toggle the block type depending on whether there's already a match.
-                            Transforms.setNodes(
-                                editor,
-                                { type: match ? "paragraph" : "code" },
-                                { match: (n) => Editor.isBlock(editor, n) }
-                            );
+                    onKeyDown={(e) => {
+                        // let's make the current text bold if the user holds command and hits "b"
+                        if (e.metaKey && e.key === "b") {
+                            e.preventDefault();
+                            Editor.addMark(editor, "bold", true);
                         }
                     }}
                 />

@@ -6,10 +6,12 @@ import {
     TriangleDownIcon,
     DownloadIcon,
     DeleteIcon,
+    PlusSquareIcon,
 } from "@chakra-ui/icons";
 import React from "react";
 import { SidebarPageList } from "./SidebarPageList";
 import { UserPopOver } from "./UserPopover";
+import { CreatePageButton } from "./CreatePageButton";
 
 interface sidebarProps {
     email: string | undefined;
@@ -135,6 +137,7 @@ export const Sidebar: React.FC<sidebarProps> = ({ email, userId }) => {
                 <Text paddingLeft="10px" fontSize="sm">
                     Favorites
                 </Text>
+                <CreatePageButton userId={userId} />
                 <SidebarPageList userId={userId} />
             </Box>
             <Box

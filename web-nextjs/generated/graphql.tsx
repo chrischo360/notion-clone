@@ -79,7 +79,7 @@ export type Mutation = {
   register: UserResponse;
   createBlock: Block;
   updateBlock: Scalars['Boolean'];
-  createPage: Scalars['Boolean'];
+  createPage: Page;
   updatePage: Scalars['Boolean'];
 };
 
@@ -119,7 +119,7 @@ export type MutationCreatePageArgs = {
 
 
 export type MutationUpdatePageArgs = {
-  input: PageInput;
+  input: PageInputUpdate;
   pageId: Scalars['Float'];
 };
 
@@ -143,9 +143,15 @@ export type BlockInput = {
 
 export type PageInput = {
   cover: Scalars['String'];
-  title: Scalars['String'];
+  title?: Maybe<Scalars['String']>;
   emoji: Scalars['String'];
   userId: Scalars['Float'];
+};
+
+export type PageInputUpdate = {
+  cover?: Maybe<Scalars['String']>;
+  title?: Maybe<Scalars['String']>;
+  emoji?: Maybe<Scalars['String']>;
 };
 
 export type CreateBlockMutationVariables = Exact<{
@@ -163,7 +169,7 @@ export type CreateBlockMutation = (
 );
 
 export type CreatePageMutationVariables = Exact<{
-  title: Scalars['String'];
+  title?: Maybe<Scalars['String']>;
   emoji: Scalars['String'];
   cover: Scalars['String'];
   userId: Scalars['Float'];
@@ -172,7 +178,10 @@ export type CreatePageMutationVariables = Exact<{
 
 export type CreatePageMutation = (
   { __typename?: 'Mutation' }
-  & Pick<Mutation, 'createPage'>
+  & { createPage: (
+    { __typename?: 'Page' }
+    & Pick<Page, 'cover' | 'title' | 'emoji' | 'pageUrl'>
+  ) }
 );
 
 export type LoginMutationVariables = Exact<{
@@ -248,11 +257,10 @@ export type UpdateBlockMutation = (
 );
 
 export type UpdatePageMutationVariables = Exact<{
-  title: Scalars['String'];
-  cover: Scalars['String'];
-  emoji: Scalars['String'];
+  title?: Maybe<Scalars['String']>;
+  cover?: Maybe<Scalars['String']>;
+  emoji?: Maybe<Scalars['String']>;
   pageId: Scalars['Float'];
-  userId: Scalars['Float'];
 }>;
 
 
@@ -289,7 +297,7 @@ export type GetPageQuery = (
   { __typename?: 'Query' }
   & { page: (
     { __typename?: 'Page' }
-    & Pick<Page, 'cover' | 'title' | 'emoji' | 'pageUrl'>
+    & Pick<Page, 'id' | 'cover' | 'title' | 'emoji' | 'pageUrl'>
   ) }
 );
 
@@ -354,10 +362,15 @@ export type CreateBlockMutationHookResult = ReturnType<typeof useCreateBlockMuta
 export type CreateBlockMutationResult = Apollo.MutationResult<CreateBlockMutation>;
 export type CreateBlockMutationOptions = Apollo.BaseMutationOptions<CreateBlockMutation, CreateBlockMutationVariables>;
 export const CreatePageDocument = gql`
-    mutation createPage($title: String!, $emoji: String!, $cover: String!, $userId: Float!) {
+    mutation createPage($title: String, $emoji: String!, $cover: String!, $userId: Float!) {
   createPage(
     input: {title: $title, emoji: $emoji, cover: $cover, userId: $userId}
-  )
+  ) {
+    cover
+    title
+    emoji
+    pageUrl
+  }
 }
     `;
 export type CreatePageMutationFn = Apollo.MutationFunction<CreatePageMutation, CreatePageMutationVariables>;
@@ -562,9 +575,9 @@ export type UpdateBlockMutationHookResult = ReturnType<typeof useUpdateBlockMuta
 export type UpdateBlockMutationResult = Apollo.MutationResult<UpdateBlockMutation>;
 export type UpdateBlockMutationOptions = Apollo.BaseMutationOptions<UpdateBlockMutation, UpdateBlockMutationVariables>;
 export const UpdatePageDocument = gql`
-    mutation updatePage($title: String!, $cover: String!, $emoji: String!, $pageId: Float!, $userId: Float!) {
+    mutation updatePage($title: String, $cover: String, $emoji: String, $pageId: Float!) {
   updatePage(
-    input: {title: $title, emoji: $emoji, cover: $cover, userId: $userId}
+    input: {title: $title, emoji: $emoji, cover: $cover}
     pageId: $pageId
   )
 }
@@ -588,7 +601,6 @@ export type UpdatePageMutationFn = Apollo.MutationFunction<UpdatePageMutation, U
  *      cover: // value for 'cover'
  *      emoji: // value for 'emoji'
  *      pageId: // value for 'pageId'
- *      userId: // value for 'userId'
  *   },
  * });
  */
@@ -664,6 +676,7 @@ export type GetMeQueryResult = Apollo.QueryResult<GetMeQuery, GetMeQueryVariable
 export const GetPageDocument = gql`
     query getPage($pageUrl: String!) {
   page(pageUrl: $pageUrl) {
+    id
     cover
     title
     emoji

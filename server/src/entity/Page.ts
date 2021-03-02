@@ -38,6 +38,7 @@ export class Page extends BaseEntity {
   @ManyToOne(() => User
   // , user => user.page
   )
+
   user: User;
   @Column()
   @RelationId((page: Page) => page.user)

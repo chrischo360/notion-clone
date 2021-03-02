@@ -8,17 +8,16 @@ import {
     PopoverCloseButton,
     Button,
     Box,
-    Image,
     Text,
 } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import React from "react";
 
-interface userpopoverProps {
+interface UserPopOverProps {
     email: string | undefined;
 }
 
-export const UserPopOver: React.FC<userpopoverProps> = ({ email }) => {
+export const UserPopOver: React.FC<UserPopOverProps> = ({ email }) => {
     const router = useRouter();
     return (
         <Popover placement="right">

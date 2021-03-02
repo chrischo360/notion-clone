@@ -1,6 +1,7 @@
-import { Box } from "@chakra-ui/react";
+import { Box, Heading } from "@chakra-ui/react";
 import { useRouter } from "next/router";
-import React from "react";
+import Router from "next/router";
+import React, { useEffect } from "react";
 import Layout from "../../components/Layout";
 import { Pagelayout } from "../../components/Pagelayout";
 import { Sidebar } from "../../components/Sidebar";
@@ -9,7 +10,8 @@ import { Frame } from "../../components/Frame";
 import { FrameHeader } from "../../components/Frameheader";
 import { FrameScroller } from "../../components/Framescroller";
 import { FramePageInformation } from "../../components/FramePageInformation";
-import Head from "next/head";
+import checkAuthentication from "../../components/checkAuthentication";
+import Link from "next/link";
 
 interface PageProps {}
 
@@ -17,21 +19,31 @@ const Page: React.FC<PageProps> = ({}) => {
     const { data, loading } = useGetMeQuery({ fetchPolicy: "network-only" });
     const router = useRouter();
     const { page } = router.query;
+    const userId = data?.me?.id;
     const email = data?.me?.email;
-    const userId = data?.me.id;
+    console.log("pageUrl:", page);
 
-    // if (userId == null) {
-    //     router.push("/login");
-    // }
-
-    console.log("typeofUserid:", typeof userId);
+    // useEffect(() => {
+    //     if (userId == null) router.push("/login");
+    // }, []);
     if (loading) {
-        return <Box>Loading...</Box>;
+        return <Layout>Loading..</Layout>;
+    }
+    if (userId == null) {
+        return (
+            <Link href="/login">
+                <Heading
+                    display="flex"
+                    justifyContent="center"
+                    // onLoad={() => router.push("/login")}
+                >
+                    User Not Found. Sending back to Login. Click Here to Get
+                    Back to Homepage
+                </Heading>
+            </Link>
+        );
     }
 
-    if (data?.me?.email == null) {
-        router.push("/login");
-    }
     return (
         <Layout>
             <Pagelayout>

@@ -1,36 +1,34 @@
 import { Box, Heading } from "@chakra-ui/react";
 import React, { useEffect } from "react";
 import { useGetPageQuery } from "../generated/graphql";
+import { PageTitle } from "./PageTitle";
+import { PickerButton } from "./Picker";
+// import DynamicComponent from "./DynamicComponent";
+// import { EmojiPickerReact } from "./EmojiPickerReact";
 // import ExampleEmojiButton from "./ExampleEmojiButton";
+// import dynamic from "next/dynamic";
+
+// const DynamicComponentWithNoSSR = dynamic(() => EmojiPickerReact, {
+//     ssr: false,
+// });
 
 interface framepageInformationProps {
     pageUrl: string;
-    emoji: string;
 }
 
 export const FramePageInformation: React.FC<framepageInformationProps> = ({
     pageUrl,
-    emoji,
 }) => {
-    // const trigger = document.querySelector("#emoji-trigger");
-
-    // picker.on("emoji", (selection) => {
-    //     // handle the selected emoji here
-    //     console.log(selection.emoji);
-    // });
-
-    // trigger.addEventListener("click", () => picker.togglePicker(trigger));
-
-    interface framepageInformationProps {
-        pageUrl: string;
-        emoji: string;
-    }
-    // const pageId = 1;
     const { data } = useGetPageQuery({
         variables: {
             pageUrl: pageUrl,
         },
     });
+    console.log("pageUrl", pageUrl);
+    console.log("pageId", data?.page.id);
+    console.log("emojiId", data?.page.emoji);
+    console.log("title", data?.page.title);
+
     return (
         <Box
             width="100%"
@@ -39,19 +37,13 @@ export const FramePageInformation: React.FC<framepageInformationProps> = ({
             alignItems="center"
         >
             <Box width="100%" marginTop="100px">
-                {/* <button id="emoji-trigger">
-                    <Image
-                        marginLeft="100px"
-                        boxSize="80px"
-                        src={data?.page.emoji}
+                <Box marginLeft="100px">
+                    <PickerButton
+                        pageId={data?.page.id}
+                        emojiId={data?.page.emoji}
                     />
-                    {picker.showPicker}
-                </button> */}
-                {/* <ExampleEmojiButton /> */}
-
-                <Heading marginLeft="100px" marginTop="50px">
-                    {data?.page.title}
-                </Heading>
+                </Box>
+                <PageTitle title={data?.page.title} />
             </Box>
         </Box>
     );

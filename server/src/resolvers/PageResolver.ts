@@ -1,12 +1,14 @@
 import { Page } from "../entity/Page";
 import { Arg, Field, InputType, Mutation, Query, Resolver } from "type-graphql";
+import { v4 as uuidv4 } from 'uuid';
+
 // import { MyContext } from "../MyContext";
 
 @InputType()
 class PageInput {
     @Field()
     cover: string
-    @Field()
+    @Field({defaultValue: "Untitled"})
     title: string
     @Field()
     emoji: string
@@ -14,12 +16,22 @@ class PageInput {
     userId: number
 }
 
+@InputType()
+class PageInputUpdate {
+    @Field({nullable: true})
+    cover: string
+    @Field({nullable: true})
+    title: string
+    @Field({nullable: true})
+    emoji: string
+}
+
 @Resolver()
 export class PageResolver {
     @Query(() => Page)
-    async page(@Arg("pageId") pageId: number) {
+    async page(@Arg("pageUrl") pageUrl: string) {
         // try {
-            const page = await Page.findOne({where: {id: pageId}})
+            const page = await Page.findOne({where: {pageUrl: pageUrl}})
             console.log(page)
             return page
         // } catch (error) {
@@ -34,30 +46,37 @@ export class PageResolver {
         return pages
     }
 
-    @Mutation(() => Boolean)
+    @Mutation(() => Page)
     async createPage(
         @Arg("input") input: PageInput,
         // @Ctx() { payload }: MyContext
         ) {
+        let page;
         // console.log(payload)
         try {
-            await Page.create({
+            page = await Page.create({
                 title: input.title,
                 emoji: input.emoji,
                 cover: input.cover,
-                userId: input.userId
+                userId: input.userId,
+                pageUrl: input.title.replace(/\s+/g, '') + "-" + uuidv4()
                 // userId: parseInt(payload!.userId)
             }).save()
-            return true
         } catch (err) {
             console.log(err);
-            return false;
-          }        
+            // return false;
+          }
+          return page    
     }
 
     @Mutation(() => Boolean)
     async updatePage(@Arg("pageId") pageId: number, 
-    @Arg("input") input: PageInput) {
-        await Page.update({id: pageId}, input )
+    @Arg("input") input: PageInputUpdate) {
+        await Page.update({id: pageId},
+            {
+            ...input,
+            pageUrl: input.title.replace(/\s+/g, '') + "-" + uuidv4()
+        } )
+        return true
     }
 }

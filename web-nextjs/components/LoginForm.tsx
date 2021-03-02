@@ -35,12 +35,17 @@ export const LoginForm = () => {
                     console.log("Response:", response);
 
                     if (response.data?.login.errors) {
+                        console.log("ERROR ERROR");
                         setStatus(toErrorMap(response.data.login.errors));
                         // console.log(response.data.login.errors[0].message);
                         setError(response.data.login.errors[0].message);
                     } else if (response && response.data) {
+                        console.log("SUCCESS SUCESS");
                         setAccessToken(response.data.login?.accessToken);
+                        console.log("SUCCESS SUCESS 1");
+
                         router.push("/pages/index");
+                        console.log("SUCCESS SUCESS 2");
                     }
                     // router.push("/pages/index");
                 }}

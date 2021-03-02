@@ -1,10 +1,15 @@
 mutation createPage(
-  $title: String!
-  $emoji: String!
-  $cover: String!
-  $userId: Float!
+    $title: String
+    $emoji: String!
+    $cover: String!
+    $userId: Float!
 ) {
-  createPage(
-    input: { title: $title, emoji: $emoji, cover: $cover, userId: $userId }
-  )
+    createPage(
+        input: { title: $title, emoji: $emoji, cover: $cover, userId: $userId }
+    ) {
+        cover
+        title
+        emoji
+        pageUrl
+    }
 }
