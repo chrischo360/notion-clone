@@ -7,12 +7,12 @@ import {
     Button,
     Box,
 } from "@chakra-ui/react";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useUpdatePageMutation } from "../generated/graphql";
 
 interface PickerButtonProps {
-    pageId: number;
-    emojiId: string;
+    pageId: number | undefined;
+    emojiId: string | undefined;
 }
 
 export const PickerButton: React.FC<PickerButtonProps> = ({
@@ -20,18 +20,24 @@ export const PickerButton: React.FC<PickerButtonProps> = ({
     emojiId,
 }) => {
     const [updatePage] = useUpdatePageMutation();
-    console.log("emojiId in Picker", emojiId);
-    console.log("pageId in Picker", pageId);
-    const [emoji, setEmoji] = useState(emojiId);
-    console.log(emoji);
-    const handleSelect = async (emoji: any) => {
-        setEmoji(emoji.id);
-        await updatePage({
+    const [emoji, setEmoji] = useState("");
+
+    useEffect(() => {
+        setEmoji(emojiId);
+    }, [emojiId]);
+
+    useEffect(() => {
+        updatePage({
             variables: {
-                emoji: emoji.id,
+                emoji: emoji,
                 pageId: pageId,
             },
         });
+    }, [emoji]);
+
+    const handleSelect = async (emoji: any) => {
+        console.log(emoji.id);
+        setEmoji(emoji.id);
     };
     return (
         <Box width="50px">
@@ -40,8 +46,10 @@ export const PickerButton: React.FC<PickerButtonProps> = ({
                     <Box height="100%">
                         {/* {emoji} */}
                         <Button backgroundColor="transparent">
-                            <Emoji emoji={{ id: emoji }} size={80}></Emoji>
-                            {/* <Image src=""></Image> */}{" "}
+                            <Emoji
+                                emoji={{ id: emoji, skin: 3 }}
+                                size={80}
+                            ></Emoji>
                         </Button>
                     </Box>
                 </PopoverTrigger>

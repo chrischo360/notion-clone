@@ -1,7 +1,7 @@
-import { Box, Heading } from "@chakra-ui/react";
-import React, { useEffect } from "react";
+import { Box } from "@chakra-ui/react";
+import React from "react";
 import { useGetPageQuery } from "../generated/graphql";
-import { PageTitle } from "./PageTitle";
+import { PageTitleEditor } from "./PageTitleEditor";
 import { PickerButton } from "./Picker";
 // import DynamicComponent from "./DynamicComponent";
 // import { EmojiPickerReact } from "./EmojiPickerReact";
@@ -24,10 +24,6 @@ export const FramePageInformation: React.FC<framepageInformationProps> = ({
             pageUrl: pageUrl,
         },
     });
-    console.log("pageUrl", pageUrl);
-    console.log("pageId", data?.page.id);
-    console.log("emojiId", data?.page.emoji);
-    console.log("title", data?.page.title);
 
     return (
         <Box
@@ -43,7 +39,12 @@ export const FramePageInformation: React.FC<framepageInformationProps> = ({
                         emojiId={data?.page.emoji}
                     />
                 </Box>
-                <PageTitle title={data?.page.title} />
+                <Box display="flex" flexDirection="column">
+                    <PageTitleEditor
+                        title={data?.page.title}
+                        pageId={data?.page.id}
+                    />
+                </Box>
             </Box>
         </Box>
     );

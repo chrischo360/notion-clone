@@ -1,6 +1,6 @@
-import { Entity, PrimaryGeneratedColumn, BaseEntity, Column, ManyToOne } from "typeorm";
+import { Entity, PrimaryGeneratedColumn, BaseEntity, Column } from "typeorm";
 import { ObjectType, Field, Int } from "type-graphql";
-import { Page } from "./Page";
+// import { Page } from "./Page";
 
 @ObjectType()
 @Entity("block")
@@ -18,6 +18,6 @@ export class Block extends BaseEntity {
   content: string;
   
   // @Field()
-  @ManyToOne(() => Page, page => page.block)
-  page: Page
+  // @ManyToOne(() => Page, page => page.block)
+  // page: Page
 }

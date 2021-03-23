@@ -81,6 +81,7 @@ export type Mutation = {
   updateBlock: Scalars['Boolean'];
   createPage: Page;
   updatePage: Scalars['Boolean'];
+  updatePageTitle: Scalars['Boolean'];
 };
 
 
@@ -120,6 +121,12 @@ export type MutationCreatePageArgs = {
 
 export type MutationUpdatePageArgs = {
   input: PageInputUpdate;
+  pageId: Scalars['Float'];
+};
+
+
+export type MutationUpdatePageTitleArgs = {
+  title: Scalars['String'];
   pageId: Scalars['Float'];
 };
 
@@ -267,6 +274,17 @@ export type UpdatePageMutationVariables = Exact<{
 export type UpdatePageMutation = (
   { __typename?: 'Mutation' }
   & Pick<Mutation, 'updatePage'>
+);
+
+export type UpdatePageTitleMutationVariables = Exact<{
+  title: Scalars['String'];
+  pageId: Scalars['Float'];
+}>;
+
+
+export type UpdatePageTitleMutation = (
+  { __typename?: 'Mutation' }
+  & Pick<Mutation, 'updatePageTitle'>
 );
 
 export type ByeQueryVariables = Exact<{ [key: string]: never; }>;
@@ -610,6 +628,37 @@ export function useUpdatePageMutation(baseOptions?: Apollo.MutationHookOptions<U
 export type UpdatePageMutationHookResult = ReturnType<typeof useUpdatePageMutation>;
 export type UpdatePageMutationResult = Apollo.MutationResult<UpdatePageMutation>;
 export type UpdatePageMutationOptions = Apollo.BaseMutationOptions<UpdatePageMutation, UpdatePageMutationVariables>;
+export const UpdatePageTitleDocument = gql`
+    mutation updatePageTitle($title: String!, $pageId: Float!) {
+  updatePageTitle(title: $title, pageId: $pageId)
+}
+    `;
+export type UpdatePageTitleMutationFn = Apollo.MutationFunction<UpdatePageTitleMutation, UpdatePageTitleMutationVariables>;
+
+/**
+ * __useUpdatePageTitleMutation__
+ *
+ * To run a mutation, you first call `useUpdatePageTitleMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdatePageTitleMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updatePageTitleMutation, { data, loading, error }] = useUpdatePageTitleMutation({
+ *   variables: {
+ *      title: // value for 'title'
+ *      pageId: // value for 'pageId'
+ *   },
+ * });
+ */
+export function useUpdatePageTitleMutation(baseOptions?: Apollo.MutationHookOptions<UpdatePageTitleMutation, UpdatePageTitleMutationVariables>) {
+        return Apollo.useMutation<UpdatePageTitleMutation, UpdatePageTitleMutationVariables>(UpdatePageTitleDocument, baseOptions);
+      }
+export type UpdatePageTitleMutationHookResult = ReturnType<typeof useUpdatePageTitleMutation>;
+export type UpdatePageTitleMutationResult = Apollo.MutationResult<UpdatePageTitleMutation>;
+export type UpdatePageTitleMutationOptions = Apollo.BaseMutationOptions<UpdatePageTitleMutation, UpdatePageTitleMutationVariables>;
 export const ByeDocument = gql`
     query bye {
   bye

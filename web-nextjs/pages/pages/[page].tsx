@@ -1,7 +1,6 @@
 import { Box, Heading } from "@chakra-ui/react";
 import { useRouter } from "next/router";
-import Router from "next/router";
-import React, { useEffect } from "react";
+import React from "react";
 import Layout from "../../components/Layout";
 import { Pagelayout } from "../../components/Pagelayout";
 import { Sidebar } from "../../components/Sidebar";
@@ -10,33 +9,26 @@ import { Frame } from "../../components/Frame";
 import { FrameHeader } from "../../components/Frameheader";
 import { FrameScroller } from "../../components/Framescroller";
 import { FramePageInformation } from "../../components/FramePageInformation";
-import checkAuthentication from "../../components/checkAuthentication";
 import Link from "next/link";
+import { NextPage } from "next";
 
 interface PageProps {}
 
-const Page: React.FC<PageProps> = ({}) => {
+const Page: NextPage = () => {
     const { data, loading } = useGetMeQuery({ fetchPolicy: "network-only" });
     const router = useRouter();
     const { page } = router.query;
+    console.log("Page Url Changed:", page);
     const userId = data?.me?.id;
     const email = data?.me?.email;
-    console.log("pageUrl:", page);
 
-    // useEffect(() => {
-    //     if (userId == null) router.push("/login");
-    // }, []);
     if (loading) {
         return <Layout>Loading..</Layout>;
     }
     if (userId == null) {
         return (
             <Link href="/login">
-                <Heading
-                    display="flex"
-                    justifyContent="center"
-                    // onLoad={() => router.push("/login")}
-                >
+                <Heading display="flex" justifyContent="center">
                     User Not Found. Sending back to Login. Click Here to Get
                     Back to Homepage
                 </Heading>
@@ -49,15 +41,11 @@ const Page: React.FC<PageProps> = ({}) => {
             <Pagelayout>
                 <Sidebar email={email} userId={userId} />
                 <Box>
-                    {/* <Box>
-                        <Box>{page}</Box>
-                    </Box> */}
                     <Frame>
                         <FrameHeader />
                         <FramePageInformation pageUrl={page} />
                         <FrameScroller />
                     </Frame>
-                    {/* <CreatePageForm /> */}
                 </Box>
             </Pagelayout>
         </Layout>

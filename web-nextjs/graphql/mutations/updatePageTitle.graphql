@@ -1,0 +1,3 @@
+mutation updatePageTitle($title: String!, $pageId: Float!) {
+    updatePageTitle(title: $title, pageId: $pageId)
+}

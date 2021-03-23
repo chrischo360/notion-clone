@@ -1,0 +1,8 @@
+subscription pageSubscription {
+    newPage {
+        title
+        emoji
+        cover
+        content
+    }
+}

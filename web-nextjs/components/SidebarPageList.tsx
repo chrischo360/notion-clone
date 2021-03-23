@@ -1,7 +1,7 @@
 import { Box, Button, Text } from "@chakra-ui/react";
 import Link from "next/link";
 import React from "react";
-import { useGetMeQuery, useGetPagesQuery } from "../generated/graphql";
+import { useGetPagesQuery } from "../generated/graphql";
 
 interface sidebarpagelistProps {
     userId: number;
@@ -9,7 +9,7 @@ interface sidebarpagelistProps {
 
 export const SidebarPageList: React.FC<sidebarpagelistProps> = ({ userId }) => {
     // const { data, loading } = useGetMeQuery({ fetchPolicy: "network-only" });
-    const { data, loading, error } = useGetPagesQuery({
+    const { data, loading, error, refetch } = useGetPagesQuery({
         variables: {
             userId: userId,
         },
@@ -21,11 +21,16 @@ export const SidebarPageList: React.FC<sidebarpagelistProps> = ({ userId }) => {
     }
 
     if (error) {
-        console.log(error);
+        console.log("SideBarError", error);
         return <Box>Error</Box>;
     }
     const listPages = pages?.map((page) => (
-        <Button width="100%" variant="ghost" key={page.id}>
+        <Button
+            width="100%"
+            variant="ghost"
+            key={page.id}
+            onClick={() => refetch()}
+        >
             {/* <TriangleDownIcon /> */}
             <Link href={`/pages/${page.pageUrl}`}>
                 <Text width="100%" textAlign="left">

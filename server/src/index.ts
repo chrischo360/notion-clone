@@ -9,12 +9,14 @@ import cookieParser from "cookie-parser";
 import { verify } from "jsonwebtoken";
 import cors from "cors";
 import { User } from "./entity/User";
-// import { Block } from "./entity/Block"
-// import { Page} from "./entity/Page"
 import { sendRefreshToken } from "./sendRefreshToken";
 import { createAccessToken, createRefreshToken } from "./auth";
-import { BlockResolver } from "./resolvers/BlockResolver";
+// import { BlockResolver } from "./resolvers/BlockResolver";
 import {PageResolver} from "./resolvers/PageResolver"
+import {PubSub } from "apollo-server-express"
+const http = require('http');
+
+
 
 (async () => {
   const app = express();
@@ -59,18 +61,39 @@ import {PageResolver} from "./resolvers/PageResolver"
 
   await createConnection();
 
+  const pubsub = new PubSub()
+
   const apolloServer = new ApolloServer({
     schema: await buildSchema({
-      resolvers: [UserResolver, BlockResolver, PageResolver],
+      resolvers: [UserResolver, PageResolver],
       validate: false
     }),
-    context: ({ req, res }) => ({ req, res })
+    context: ({ req, res }) => ({ req, res, pubsub }),
+    subscriptions: {
+      onConnect: async (connectionParams) => {
+        console.log('xxx');
+        console.log(connectionParams);
+      },
+    },
+  
   });
+
+  const httpServer = http.createServer(app);
+
 
   apolloServer.applyMiddleware({ app, cors: false });
 
-  app.listen(4000, () => {
-    console.log("express server started");
+  apolloServer.installSubscriptionHandlers(httpServer);
+
+
+  httpServer.listen(4000, () => {
+    console.log(
+      `🚀 Server ready at http://localhost:${4000}${apolloServer.graphqlPath}`,
+    );
+      console.log(
+      `🚀 Subscriptions ready at ws://localhost:${4000}${apolloServer.subscriptionsPath}`,
+    );
+  
   });
 })();
 

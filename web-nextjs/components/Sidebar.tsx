@@ -6,7 +6,6 @@ import {
     TriangleDownIcon,
     DownloadIcon,
     DeleteIcon,
-    PlusSquareIcon,
 } from "@chakra-ui/icons";
 import React from "react";
 import { SidebarPageList } from "./SidebarPageList";

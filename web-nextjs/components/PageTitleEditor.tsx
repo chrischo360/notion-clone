@@ -3,11 +3,14 @@ import React, { useEffect, useMemo, useState } from "react";
 import { useCallback } from "react";
 import { createEditor, Transforms, Editor, Node } from "slate";
 import { Slate, Editable, withReact } from "slate-react";
-import { useUpdatePageMutation } from "../generated/graphql";
+import {
+    useUpdatePageMutation,
+    useUpdatePageTitleMutation,
+} from "../generated/graphql";
 import { withMyPlugin } from "./withMyPlugin";
 
-export const EditorComponent = ({ title, pageId }: any) => {
-    const [updatePage] = useUpdatePageMutation();
+export const PageTitleEditor = ({ title, pageId }: any) => {
+    const [updatePage] = useUpdatePageTitleMutation();
     const editor = useMemo(() => withReact(withMyPlugin(createEditor())), []);
     console.log("Title:", title);
     const [value, setValue] = useState(
@@ -15,7 +18,7 @@ export const EditorComponent = ({ title, pageId }: any) => {
         [
             {
                 type: "paragraph",
-                children: [{ text: "A line of text in a paragraph." }],
+                children: [{ text: "A line of text." }],
             },
         ]
     );
