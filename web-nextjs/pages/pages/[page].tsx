@@ -18,7 +18,7 @@ const Page: NextPage = () => {
     const { data, loading } = useGetMeQuery({ fetchPolicy: "network-only" });
     const router = useRouter();
     const { page } = router.query;
-    console.log("Page Url Changed:", page);
+    // console.log("Page Url Changed:", page);
     const userId = data?.me?.id;
     const email = data?.me?.email;
 

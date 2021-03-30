@@ -1,24 +1,37 @@
 import { Box } from "@chakra-ui/react";
 import React, { useEffect, useMemo, useState } from "react";
 import { useCallback } from "react";
-import { createEditor, Transforms, Editor, Node } from "slate";
+import { createEditor, Editor, Node } from "slate";
 import { Slate, Editable, withReact } from "slate-react";
-import {
-    useUpdatePageMutation,
-    useUpdatePageTitleMutation,
-} from "../generated/graphql";
+import { useUpdatePageMutation } from "../generated/graphql";
 import { withMyPlugin } from "./withMyPlugin";
 
+// const NEWPAGE = gql`
+//     subscription newPage {
+//         newPage {
+//             title
+//             emoji
+//             cover
+//             content
+//         }
+//     }
+// `;
+
 export const PageTitleEditor = ({ title, pageId }: any) => {
-    const [updatePage] = useUpdatePageTitleMutation();
+    // const { data } = usePageSubscriptionSubscription;
+    // const { data } = useSubscription(NEWPAGE);
+
+    const [updatePage] = useUpdatePageMutation();
     const editor = useMemo(() => withReact(withMyPlugin(createEditor())), []);
-    console.log("Title:", title);
+
+    // const [value, setValue] = useState(data.newPage.content);
+
     const [value, setValue] = useState(
         // JSON.parse(title) ||
         [
             {
                 type: "paragraph",
-                children: [{ text: "A line of text." }],
+                children: [{ text: "test" }],
             },
         ]
     );
@@ -34,18 +47,29 @@ export const PageTitleEditor = ({ title, pageId }: any) => {
 
     return (
         <Box padding="100px">
+            {/* <Box>Updated Data: {data.newPage.content}</Box> */}
             <Slate
                 editor={editor}
                 value={value}
                 onChange={(newValue) => {
                     setValue(newValue);
-                    const content = JSON.stringify(value);
+                    // const content = JSON.stringify(value);
+                    console.log(newValue.map((n) => Node.string(n)).join("\n"));
                     updatePage({
                         variables: {
                             pageId: pageId,
-                            title: content,
+                            title: newValue
+                                .map((n) => Node.string(n))
+                                .join("\n"),
                         },
                     });
+
+                    // updatePage({
+                    //     variables: {
+                    //         pageId: pageId,
+                    //         title: content,
+                    //     },
+                    // });
                 }}
             >
                 <Editable

@@ -97,7 +97,7 @@ export class PageResolver {
                 cover: input.cover,
                 userId: input.userId,
                 content: input.content,
-                pageUrl: input.title.replace(/\s+/g, '') + "-" + uuidv4()
+                pageUrl: uuidv4()
                 // userId: parseInt(payload!.userId)
             }).save()
 
@@ -128,16 +128,16 @@ export class PageResolver {
         return true
     }
 
-    @Mutation(() => Boolean)
-    async updatePageTitle(@Arg("pageId") pageId: number, 
-    @Arg("title") title: string) {
-        await Page.update({id: pageId},
-            {
-            title,
-            pageUrl: title.replace(/\s+/g, '') + "-" + uuidv4()
-        } )
-        return true
-    }
+    // @Mutation(() => Boolean)
+    // async updatePageTitle(@Arg("pageId") pageId: number, 
+    // @Arg("title") title: string) {
+    //     await Page.update({id: pageId},
+    //         {
+    //         title,
+    //         // pageUrl: title.replace(/\s+/g, '') + "-" + uuidv4()
+    //     } )
+    //     return true
+    // }
 
 
     @Subscription(() => PageResult, {

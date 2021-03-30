@@ -3,6 +3,7 @@ import React from "react";
 import { useGetPageQuery } from "../generated/graphql";
 import { PageTitleEditor } from "./PageTitleEditor";
 import { PickerButton } from "./Picker";
+import { useAppContext } from "../context/context";
 // import DynamicComponent from "./DynamicComponent";
 // import { EmojiPickerReact } from "./EmojiPickerReact";
 // import ExampleEmojiButton from "./ExampleEmojiButton";
@@ -25,6 +26,9 @@ export const FramePageInformation: React.FC<framepageInformationProps> = ({
         },
     });
 
+    const value = useAppContext();
+    console.log("FramePageInformation:", value);
+
     return (
         <Box
             width="100%"
@@ -32,6 +36,7 @@ export const FramePageInformation: React.FC<framepageInformationProps> = ({
             flexDirection="column"
             alignItems="center"
         >
+            <div>{value.me.id}</div>
             <Box width="100%" marginTop="100px">
                 <Box marginLeft="100px">
                     <PickerButton

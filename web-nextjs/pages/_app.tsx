@@ -5,6 +5,7 @@ import { withApollo } from "../lib/apollo";
 import { ChakraProvider } from "@chakra-ui/react";
 import "focus-visible/dist/focus-visible";
 import { Global, css } from "@emotion/react";
+import { AppWrapper } from "../context/context";
 
 const GlobalStyles = css`
     /*
@@ -24,8 +25,9 @@ class MyApp extends App<any> {
             <ApolloProvider client={apolloClient}>
                 <ChakraProvider>
                     <Global styles={GlobalStyles} />
-
-                    <Component {...pageProps} />
+                    <AppWrapper>
+                        <Component {...pageProps} />
+                    </AppWrapper>
                 </ChakraProvider>
             </ApolloProvider>
         );

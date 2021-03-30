@@ -11,8 +11,6 @@ export type Scalars = {
   Boolean: boolean;
   Int: number;
   Float: number;
-  /** The javascript `Date` as string. Type represents date and time as the ISO Date string. */
-  DateTime: any;
 };
 
 export type Query = {
@@ -21,15 +19,8 @@ export type Query = {
   bye: Scalars['String'];
   users: Array<User>;
   me?: Maybe<User>;
-  blocks: Array<Block>;
-  block: Block;
   page: Page;
   pages: Array<Page>;
-};
-
-
-export type QueryBlockArgs = {
-  blockId: Scalars['Float'];
 };
 
 
@@ -51,25 +42,16 @@ export type User = {
   avatarUrl: Scalars['String'];
 };
 
-export type Block = {
-  __typename?: 'Block';
-  id: Scalars['Int'];
-  type: Scalars['String'];
-  content: Scalars['String'];
-};
-
 export type Page = {
   __typename?: 'Page';
   id: Scalars['Int'];
-  createdAt: Scalars['DateTime'];
-  updatedAt: Scalars['DateTime'];
   cover: Scalars['String'];
   title: Scalars['String'];
   emoji: Scalars['String'];
+  content: Scalars['String'];
   pageUrl: Scalars['String'];
   user: User;
 };
-
 
 export type Mutation = {
   __typename?: 'Mutation';
@@ -77,11 +59,8 @@ export type Mutation = {
   revokeRefreshTokensForUser: Scalars['Boolean'];
   login: UserResponse;
   register: UserResponse;
-  createBlock: Block;
-  updateBlock: Scalars['Boolean'];
   createPage: Page;
   updatePage: Scalars['Boolean'];
-  updatePageTitle: Scalars['Boolean'];
 };
 
 
@@ -102,18 +81,6 @@ export type MutationRegisterArgs = {
 };
 
 
-export type MutationCreateBlockArgs = {
-  input: BlockInput;
-};
-
-
-export type MutationUpdateBlockArgs = {
-  content: Scalars['String'];
-  type: Scalars['String'];
-  blockId: Scalars['Int'];
-};
-
-
 export type MutationCreatePageArgs = {
   input: PageInput;
 };
@@ -121,12 +88,6 @@ export type MutationCreatePageArgs = {
 
 export type MutationUpdatePageArgs = {
   input: PageInputUpdate;
-  pageId: Scalars['Float'];
-};
-
-
-export type MutationUpdatePageTitleArgs = {
-  title: Scalars['String'];
   pageId: Scalars['Float'];
 };
 
@@ -143,37 +104,40 @@ export type FieldError = {
   message: Scalars['String'];
 };
 
-export type BlockInput = {
-  type: Scalars['String'];
-  content: Scalars['String'];
-};
-
 export type PageInput = {
   cover: Scalars['String'];
   title?: Maybe<Scalars['String']>;
   emoji: Scalars['String'];
   userId: Scalars['Float'];
+  content?: Maybe<Scalars['String']>;
 };
 
 export type PageInputUpdate = {
   cover?: Maybe<Scalars['String']>;
   title?: Maybe<Scalars['String']>;
   emoji?: Maybe<Scalars['String']>;
+  content?: Maybe<Scalars['String']>;
 };
 
-export type CreateBlockMutationVariables = Exact<{
-  content: Scalars['String'];
+export type Subscription = {
+  __typename?: 'Subscription';
+  newPage: PageResult;
+};
+
+export type PageResult = {
+  __typename?: 'PageResult';
+  cover?: Maybe<Scalars['String']>;
+  title?: Maybe<Scalars['String']>;
+  emoji?: Maybe<Scalars['String']>;
+  content?: Maybe<Scalars['String']>;
+};
+
+export type Block = {
+  __typename?: 'Block';
+  id: Scalars['Int'];
   type: Scalars['String'];
-}>;
-
-
-export type CreateBlockMutation = (
-  { __typename?: 'Mutation' }
-  & { createBlock: (
-    { __typename?: 'Block' }
-    & Pick<Block, 'id' | 'content' | 'type'>
-  ) }
-);
+  content: Scalars['String'];
+};
 
 export type CreatePageMutationVariables = Exact<{
   title?: Maybe<Scalars['String']>;
@@ -251,18 +215,6 @@ export type RevokeRefreshTokensMutation = (
   & Pick<Mutation, 'revokeRefreshTokensForUser'>
 );
 
-export type UpdateBlockMutationVariables = Exact<{
-  content: Scalars['String'];
-  type: Scalars['String'];
-  blockId: Scalars['Int'];
-}>;
-
-
-export type UpdateBlockMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'updateBlock'>
-);
-
 export type UpdatePageMutationVariables = Exact<{
   title?: Maybe<Scalars['String']>;
   cover?: Maybe<Scalars['String']>;
@@ -274,17 +226,6 @@ export type UpdatePageMutationVariables = Exact<{
 export type UpdatePageMutation = (
   { __typename?: 'Mutation' }
   & Pick<Mutation, 'updatePage'>
-);
-
-export type UpdatePageTitleMutationVariables = Exact<{
-  title: Scalars['String'];
-  pageId: Scalars['Float'];
-}>;
-
-
-export type UpdatePageTitleMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'updatePageTitle'>
 );
 
 export type ByeQueryVariables = Exact<{ [key: string]: never; }>;
@@ -328,7 +269,7 @@ export type GetPagesQuery = (
   { __typename?: 'Query' }
   & { pages: Array<(
     { __typename?: 'Page' }
-    & Pick<Page, 'id' | 'createdAt' | 'updatedAt' | 'cover' | 'title' | 'emoji' | 'pageUrl'>
+    & Pick<Page, 'id' | 'cover' | 'title' | 'emoji' | 'pageUrl'>
   )> }
 );
 
@@ -343,42 +284,18 @@ export type UsersQuery = (
   )> }
 );
 
+export type PageSubscriptionSubscriptionVariables = Exact<{ [key: string]: never; }>;
 
-export const CreateBlockDocument = gql`
-    mutation createBlock($content: String!, $type: String!) {
-  createBlock(input: {content: $content, type: $type}) {
-    id
-    content
-    type
-  }
-}
-    `;
-export type CreateBlockMutationFn = Apollo.MutationFunction<CreateBlockMutation, CreateBlockMutationVariables>;
 
-/**
- * __useCreateBlockMutation__
- *
- * To run a mutation, you first call `useCreateBlockMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useCreateBlockMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [createBlockMutation, { data, loading, error }] = useCreateBlockMutation({
- *   variables: {
- *      content: // value for 'content'
- *      type: // value for 'type'
- *   },
- * });
- */
-export function useCreateBlockMutation(baseOptions?: Apollo.MutationHookOptions<CreateBlockMutation, CreateBlockMutationVariables>) {
-        return Apollo.useMutation<CreateBlockMutation, CreateBlockMutationVariables>(CreateBlockDocument, baseOptions);
-      }
-export type CreateBlockMutationHookResult = ReturnType<typeof useCreateBlockMutation>;
-export type CreateBlockMutationResult = Apollo.MutationResult<CreateBlockMutation>;
-export type CreateBlockMutationOptions = Apollo.BaseMutationOptions<CreateBlockMutation, CreateBlockMutationVariables>;
+export type PageSubscriptionSubscription = (
+  { __typename?: 'Subscription' }
+  & { newPage: (
+    { __typename?: 'PageResult' }
+    & Pick<PageResult, 'title' | 'emoji' | 'cover' | 'content'>
+  ) }
+);
+
+
 export const CreatePageDocument = gql`
     mutation createPage($title: String, $emoji: String!, $cover: String!, $userId: Float!) {
   createPage(
@@ -560,38 +477,6 @@ export function useRevokeRefreshTokensMutation(baseOptions?: Apollo.MutationHook
 export type RevokeRefreshTokensMutationHookResult = ReturnType<typeof useRevokeRefreshTokensMutation>;
 export type RevokeRefreshTokensMutationResult = Apollo.MutationResult<RevokeRefreshTokensMutation>;
 export type RevokeRefreshTokensMutationOptions = Apollo.BaseMutationOptions<RevokeRefreshTokensMutation, RevokeRefreshTokensMutationVariables>;
-export const UpdateBlockDocument = gql`
-    mutation updateBlock($content: String!, $type: String!, $blockId: Int!) {
-  updateBlock(content: $content, type: $type, blockId: $blockId)
-}
-    `;
-export type UpdateBlockMutationFn = Apollo.MutationFunction<UpdateBlockMutation, UpdateBlockMutationVariables>;
-
-/**
- * __useUpdateBlockMutation__
- *
- * To run a mutation, you first call `useUpdateBlockMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useUpdateBlockMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [updateBlockMutation, { data, loading, error }] = useUpdateBlockMutation({
- *   variables: {
- *      content: // value for 'content'
- *      type: // value for 'type'
- *      blockId: // value for 'blockId'
- *   },
- * });
- */
-export function useUpdateBlockMutation(baseOptions?: Apollo.MutationHookOptions<UpdateBlockMutation, UpdateBlockMutationVariables>) {
-        return Apollo.useMutation<UpdateBlockMutation, UpdateBlockMutationVariables>(UpdateBlockDocument, baseOptions);
-      }
-export type UpdateBlockMutationHookResult = ReturnType<typeof useUpdateBlockMutation>;
-export type UpdateBlockMutationResult = Apollo.MutationResult<UpdateBlockMutation>;
-export type UpdateBlockMutationOptions = Apollo.BaseMutationOptions<UpdateBlockMutation, UpdateBlockMutationVariables>;
 export const UpdatePageDocument = gql`
     mutation updatePage($title: String, $cover: String, $emoji: String, $pageId: Float!) {
   updatePage(
@@ -628,37 +513,6 @@ export function useUpdatePageMutation(baseOptions?: Apollo.MutationHookOptions<U
 export type UpdatePageMutationHookResult = ReturnType<typeof useUpdatePageMutation>;
 export type UpdatePageMutationResult = Apollo.MutationResult<UpdatePageMutation>;
 export type UpdatePageMutationOptions = Apollo.BaseMutationOptions<UpdatePageMutation, UpdatePageMutationVariables>;
-export const UpdatePageTitleDocument = gql`
-    mutation updatePageTitle($title: String!, $pageId: Float!) {
-  updatePageTitle(title: $title, pageId: $pageId)
-}
-    `;
-export type UpdatePageTitleMutationFn = Apollo.MutationFunction<UpdatePageTitleMutation, UpdatePageTitleMutationVariables>;
-
-/**
- * __useUpdatePageTitleMutation__
- *
- * To run a mutation, you first call `useUpdatePageTitleMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useUpdatePageTitleMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [updatePageTitleMutation, { data, loading, error }] = useUpdatePageTitleMutation({
- *   variables: {
- *      title: // value for 'title'
- *      pageId: // value for 'pageId'
- *   },
- * });
- */
-export function useUpdatePageTitleMutation(baseOptions?: Apollo.MutationHookOptions<UpdatePageTitleMutation, UpdatePageTitleMutationVariables>) {
-        return Apollo.useMutation<UpdatePageTitleMutation, UpdatePageTitleMutationVariables>(UpdatePageTitleDocument, baseOptions);
-      }
-export type UpdatePageTitleMutationHookResult = ReturnType<typeof useUpdatePageTitleMutation>;
-export type UpdatePageTitleMutationResult = Apollo.MutationResult<UpdatePageTitleMutation>;
-export type UpdatePageTitleMutationOptions = Apollo.BaseMutationOptions<UpdatePageTitleMutation, UpdatePageTitleMutationVariables>;
 export const ByeDocument = gql`
     query bye {
   bye
@@ -763,8 +617,6 @@ export const GetPagesDocument = gql`
     query getPages($userId: Float!) {
   pages(userId: $userId) {
     id
-    createdAt
-    updatedAt
     cover
     title
     emoji
@@ -833,3 +685,34 @@ export function useUsersLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<User
 export type UsersQueryHookResult = ReturnType<typeof useUsersQuery>;
 export type UsersLazyQueryHookResult = ReturnType<typeof useUsersLazyQuery>;
 export type UsersQueryResult = Apollo.QueryResult<UsersQuery, UsersQueryVariables>;
+export const PageSubscriptionDocument = gql`
+    subscription pageSubscription {
+  newPage {
+    title
+    emoji
+    cover
+    content
+  }
+}
+    `;
+
+/**
+ * __usePageSubscriptionSubscription__
+ *
+ * To run a query within a React component, call `usePageSubscriptionSubscription` and pass it any options that fit your needs.
+ * When your component renders, `usePageSubscriptionSubscription` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the subscription, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = usePageSubscriptionSubscription({
+ *   variables: {
+ *   },
+ * });
+ */
+export function usePageSubscriptionSubscription(baseOptions?: Apollo.SubscriptionHookOptions<PageSubscriptionSubscription, PageSubscriptionSubscriptionVariables>) {
+        return Apollo.useSubscription<PageSubscriptionSubscription, PageSubscriptionSubscriptionVariables>(PageSubscriptionDocument, baseOptions);
+      }
+export type PageSubscriptionSubscriptionHookResult = ReturnType<typeof usePageSubscriptionSubscription>;
+export type PageSubscriptionSubscriptionResult = Apollo.SubscriptionResult<PageSubscriptionSubscription>;

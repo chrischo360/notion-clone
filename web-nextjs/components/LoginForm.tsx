@@ -106,14 +106,16 @@ export const LoginForm = () => {
                                     mt="20px"
                                     borderRadius="0px"
                                     width="400px"
+                                    isLoading={isSubmitting}
+                                    type="submit"
                                 >
                                     Continue with Email
                                 </Button>
                                 <Button
                                     variant="link"
                                     mt="20px"
-                                    isLoading={isSubmitting}
-                                    type="submit"
+                                    // isLoading={isSubmitting}
+                                    // type="submit"
                                 >
                                     Forgot password?
                                 </Button>

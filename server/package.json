@@ -28,6 +28,7 @@
     "mysql": "^2.18.1",
     "pg": "^7.3.0",
     "reflect-metadata": "^0.1.10",
+    "subscriptions-transport-ws": "^0.9.18",
     "type-graphql": "^0.17.5",
     "typeorm": "0.2.19",
     "uuid": "^8.3.2"
